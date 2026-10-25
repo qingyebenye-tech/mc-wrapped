@@ -10,6 +10,8 @@
 
 **中文** · [English](README_EN.md)
 
+**[🌐 在线演示](https://qingyebenye-tech.github.io/mcd-yearly/)** — 无需安装，点开即用
+
 [快速开始](#-快速开始) · [使用示例](#-使用示例) · [功能特性](#-功能特性) · [工作原理](#-工作原理) · [常见问题](#-常见问题)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -183,10 +185,15 @@
 mcd-yearly/
 ├── SKILL.md                 # Skill 本体（提示词 + 工作流定义）
 ├── README.md                # 本文件
+├── README_EN.md             # 英文版 README
 ├── MCP_INTEGRATION.md       # MCP 接入说明（工具清单 / 调用流程 / 业务价值）
 ├── CONTEST_DECLARATION.md   # 参赛声明（官方原文，不可修改）
 ├── mcp-config.example.json  # MCP 客户端配置模板（脱敏）
 ├── workbuddy.md             # WorkBuddy 使用与开发上下文
+├── demo/
+│   └── index.html           # 交互式在线演示页面
+├── docs/
+│   └── index.html           # GitHub Pages 部署副本
 ├── images/
 │   ├── banner.png           # 项目主视觉
 │   └── banner.svg           # 主视觉矢量源文件

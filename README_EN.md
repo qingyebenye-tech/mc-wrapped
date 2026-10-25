@@ -10,6 +10,8 @@
 
 [中文](README.md) · **English**
 
+**[🌐 Live Demo](https://qingyebenye-tech.github.io/mcd-yearly/)** — No installation required
+
 [Quick Start](#-quick-start) · [Examples](#-examples) · [Features](#-features) · [How It Works](#-how-it-works) · [FAQ](#-faq)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -182,12 +184,16 @@ Annual Wrapped                           Daily Crave
 ```
 mcd-yearly/
 ├── SKILL.md                 # Skill body (prompt + workflow definition)
-├── README.md                # This file (Chinese)
+├── README.md                # Chinese README
 ├── README_EN.md             # English README (this file)
 ├── MCP_INTEGRATION.md       # MCP integration docs (tool list / flow / business value)
 ├── CONTEST_DECLARATION.md   # Contest declaration (official, do not modify)
 ├── mcp-config.example.json  # MCP client config template (sanitized)
 ├── workbuddy.md             # WorkBuddy usage & dev context
+├── demo/
+│   └── index.html           # Interactive online demo page
+├── docs/
+│   └── index.html           # GitHub Pages deployment copy
 ├── images/
 │   ├── banner.png           # Project hero image
 │   └── banner.svg           # Hero image vector source
