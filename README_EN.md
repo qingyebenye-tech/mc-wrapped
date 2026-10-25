@@ -12,7 +12,7 @@
 
 **[🌐 Live Demo](https://qingyebenye-tech.github.io/mcd-yearly/)** — No installation required
 
-[Quick Start](#-quick-start) · [Examples](#-examples) · [Features](#-features) · [How It Works](#-how-it-works) · [FAQ](#-faq)
+[Quick Start](#-quick-start) · [Examples](#-examples) · [Features](#-features) · [How It Works](#-how-it-works) · [FAQ](#-faq) · [Changelog](CHANGELOG.md)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-McDonald%27s%20Official-FFC72C.svg)](https://open.mcd.cn/mcp)
@@ -43,6 +43,9 @@ What this Skill does is simple: **translate your real orders into an annual repo
 | 🌤️ **Daily Crave Index** | A 0–100 score combining fast duration, today's campaigns, expiring coupons, and weekday |
 | 🍔 **One-Tap Order** | Recommends what to eat today, can check price and create an order directly |
 | ⏰ **Next Visit Reminder** | Estimates your "due back" window based on historical consumption frequency |
+| 🎨 **Share Poster** | One-click 3:4 vertical poster with MBTI + heatmap + annual data, screenshot-ready for sharing |
+| 🧪 **McMBTI** | 4 dimensions × 2 = 16 personality types (frequency/loyalty/spending/coupon habit), e.g. "Happy Meal Loyalist" |
+| 🔥 **Consumption Heatmap** | 26×7 grid, 4-level color scale, density scales with visit count, visualizes your full-year rhythm |
 
 ### 🏅 McFaith Index Tiers
 
@@ -55,6 +58,30 @@ The annual report assigns you a title based on your McFaith score:
 | 50–69 | McFence Sitter | Could eat, could not — depends on the mood |
 | 30–49 | McDefector | Time to come back for a burger |
 | 0–29 | McProdigal | Go eat a burger and redeem yourself |
+
+### 🎨 Live Demo & Share Poster
+
+No installation required — **[just open the link](https://qingyebenye-tech.github.io/mcd-yearly/)**. The demo page provides 4 interactive tabs:
+
+| Tab | Content |
+|:---:|---|
+| 📊 Annual Report Card | 12 inputs render a dark gold-themed card in real time, with auto-calculated McFaith Index + title |
+| 🌤️ Daily Crave Index | 4 parameters compute a 0–100 score live, with weighted-factor visualization |
+| 🎨 Share Poster | One-click 3:4 vertical poster with MBTI + heatmap + QR code, download 2x PNG |
+| ⚙️ How It Works | 8 MCP tool tags + call flow diagram + read/write separation principle |
+
+The **Share Poster** is the core viral entry point: enter your data, click "Generate," and get a 3:4 poster ready to screenshot for Xiaohongshu / WeChat Moments / Weibo. Each poster carries a repo QR code — every share is a new-star funnel.
+
+### 🧪 McMBTI Personality System (16 Types)
+
+| Dimension | Basis | Values |
+|:---:|---|---|
+| **I / E** | Visit frequency | <24 visits = I (low-freq introvert) ｜ ≥24 = E (high-freq extrovert) |
+| **F / T** | Loyalty | Favorite item ≥8 times = F (faithful) ｜ <8 = T (taster) |
+| **S / N** | Spending style | Avg ticket <¥30 = S (saver) ｜ ≥¥30 = N (spender) |
+| **J / P** | Coupon habit | Holds ≥3 coupons = J (planner) ｜ <3 = P (spontaneous) |
+
+Example: `EFSJ` = Happy Meal Loyalist (regular + faithful + frugal + coupon-stasher); `EFNJ` = McFlurry Connoisseur (McDonald's KOL).
 
 ---
 
@@ -188,6 +215,7 @@ mcd-yearly/
 ├── README_EN.md             # English README (this file)
 ├── MCP_INTEGRATION.md       # MCP integration docs (tool list / flow / business value)
 ├── CONTEST_DECLARATION.md   # Contest declaration (official, do not modify)
+├── CHANGELOG.md             # Changelog
 ├── mcp-config.example.json  # MCP client config template (sanitized)
 ├── workbuddy.md             # WorkBuddy usage & dev context
 ├── demo/
