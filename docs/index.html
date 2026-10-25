@@ -240,6 +240,86 @@
   .mcfaith-50 { background: #888; color: #fff; }
   .mcfaith-30 { background: #5577aa; color: #fff; }
   .mcfaith-0  { background: var(--mc-red); color: #fff; }
+  /* ===== 麦门指数构成条 ===== */
+  .score-breakdown {
+    margin-top: 16px;
+    text-align: left;
+    position: relative;
+  }
+  .bd-item { margin-bottom: 10px; }
+  .bd-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    font-size: 0.76em;
+    margin-bottom: 4px;
+  }
+  .bd-head .bd-detail {
+    flex: 1;
+    min-width: 0;
+    color: var(--mc-text-dim);
+    opacity: 0.85;
+  }
+  .bd-head .bd-val {
+    white-space: nowrap;
+    color: var(--mc-text);
+    font-variant-numeric: tabular-nums;
+  }
+  .bd-track {
+    height: 8px;
+    background: var(--mc-darker);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bd-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+  /* ===== 星期分布输入 ===== */
+  .dist-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .dist-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    text-align: center;
+  }
+  .dist-cell span { font-size: 0.7em; color: var(--mc-text-dim); }
+  .dist-cell input {
+    width: 100%;
+    background: var(--mc-darker);
+    border: 1px solid #444;
+    color: var(--mc-text);
+    border-radius: 6px;
+    padding: 6px 0;
+    text-align: center;
+    font-size: 0.9em;
+  }
+  .dist-cell input:focus { outline: none; border-color: var(--mc-yellow); }
+  .dist-cell.hot input {
+    border-color: var(--mc-yellow);
+    color: var(--mc-yellow);
+    font-weight: 700;
+  }
+  .dist-note {
+    font-size: 0.75em;
+    color: var(--mc-text-dim);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .dist-note b { color: var(--mc-yellow); }
+  .pick-reason {
+    font-size: 0.78em;
+    color: var(--mc-text-dim);
+    margin-top: 6px;
+  }
+  .full-row { grid-column: 1 / -1; }
   /* ===== Crave Index ===== */
   .crave-panel {
     background: var(--mc-card);
@@ -305,8 +385,8 @@
     border-radius: 4px;
     transition: width 0.6s;
   }
-  .factor-label { font-size: 0.85em; width: 180px; flex-shrink: 0; }
-  .factor-weight { font-size: 0.8em; color: var(--mc-text-dim); width: 40px; text-align: right; }
+  .factor-label { font-size: 0.85em; width: 110px; flex-shrink: 0; }
+  .factor-weight { font-size: 0.78em; color: var(--mc-text-dim); width: 118px; text-align: right; font-variant-numeric: tabular-nums; }
   /* ===== Work Flow ===== */
   .workflow-section {
     background: var(--mc-card);
@@ -459,14 +539,15 @@
         <input type="number" id="in-coupons" value="3" min="0">
       </div>
       <div class="form-group">
-        <label>当前积分</label>
+        <label>当前可用积分</label>
         <input type="number" id="in-points" value="2350" min="0">
       </div>
       <div class="form-group">
-        <label>今年总消费次数（用于指数）</label>
-        <input type="number" id="in-total-visits" value="47" min="0">
+        <label>历史累计积分（不会被兑换消耗）</label>
+        <input type="number" id="in-points-total" value="3860" min="0">
       </div>
     </div>
+    <p class="dist-note">麦门指数 = 近期活跃度 30% + 消费贡献 25% + 积分虔诚度 25% + 券包厚度 20%，生成后会在卡片里逐维展示得分构成。</p>
     <button class="btn-generate" onclick="generateReport()">生成我的年度总结卡片</button>
   </div>
 
@@ -488,30 +569,43 @@
       <div class="form-group">
         <label>今天有促销活动吗？</label>
         <select id="crave-campaign" onchange="calcCrave()">
-          <option value="1" selected>有 · 程序员节双件套</option>
-          <option value="0.5">小活动 · 第二份半价</option>
-          <option value="0">无活动</option>
+          <option value="100" selected>有 · 程序员节双件套</option>
+          <option value="70">小活动 · 第二份半价</option>
+          <option value="40">无活动</option>
         </select>
       </div>
       <div class="form-group">
         <label>有临期优惠券吗（几天内过期）</label>
         <select id="crave-coupon" onchange="calcCrave()">
-          <option value="1" selected>有 · 后天过期</option>
-          <option value="0.5">有 · 一周内过期</option>
-          <option value="0">无临期券</option>
+          <option value="100" selected>有 · 3 天内过期</option>
+          <option value="70">有 · 一周内过期</option>
+          <option value="30">无临期券</option>
         </select>
       </div>
       <div class="form-group">
         <label>今天是星期几</label>
-        <select id="crave-weekday" onchange="calcCrave()">
-          <option value="0.3">周一</option>
-          <option value="0.4">周二</option>
-          <option value="0.5">周三</option>
-          <option value="0.6">周四</option>
-          <option value="0.7">周五</option>
-          <option value="1" selected>周六</option>
-          <option value="0.9">周日</option>
+        <select id="crave-dow" onchange="calcCrave()">
+          <option value="0">周一</option>
+          <option value="1">周二</option>
+          <option value="2">周三</option>
+          <option value="3">周四</option>
+          <option value="4">周五</option>
+          <option value="5" selected>周六</option>
+          <option value="6">周日</option>
         </select>
+      </div>
+      <div class="form-group full-row">
+        <label>你的历史订单星期分布（各星期下单次数，用于算个人化星期偏好）</label>
+        <div class="dist-grid">
+          <div class="dist-cell"><span>一</span><input type="number" id="dist-0" value="2" min="0" oninput="calcCrave()"></div>
+          <div class="dist-cell"><span>二</span><input type="number" id="dist-1" value="3" min="0" oninput="calcCrave()"></div>
+          <div class="dist-cell"><span>三</span><input type="number" id="dist-2" value="1" min="0" oninput="calcCrave()"></div>
+          <div class="dist-cell"><span>四</span><input type="number" id="dist-3" value="4" min="0" oninput="calcCrave()"></div>
+          <div class="dist-cell"><span>五</span><input type="number" id="dist-4" value="11" min="0" oninput="calcCrave()"></div>
+          <div class="dist-cell"><span>六</span><input type="number" id="dist-5" value="15" min="0" oninput="calcCrave()"></div>
+          <div class="dist-cell"><span>日</span><input type="number" id="dist-6" value="6" min="0" oninput="calcCrave()"></div>
+        </div>
+        <div class="dist-note" id="dist-note"></div>
       </div>
     </div>
   </div>
@@ -528,7 +622,8 @@
     <div class="crave-factors" id="crave-factors"></div>
     <hr class="divider">
     <div style="text-align:center;">
-      <p style="color:var(--mc-text-dim);font-size:0.9em;">今日推荐：<span id="crave-pick" style="color:var(--mc-yellow);font-weight:600;">麦辣鸡腿堡套餐（黄金六块 + 麦乐鸡）</span></p>
+      <p style="color:var(--mc-text-dim);font-size:0.9em;"><span id="crave-pick-label">今日推荐</span>：<span id="crave-pick" style="color:var(--mc-yellow);font-weight:600;">麦辣鸡腿堡套餐（黄金六块 + 麦乐鸡）</span></p>
+      <p class="pick-reason" id="crave-pick-reason"></p>
       <p style="color:var(--mc-text-dim);font-size:0.8em;margin-top:8px;">实际使用时，推荐餐品由 <code style="color:var(--mc-yellow)">query-meals</code> + <code style="color:var(--mc-yellow)">calculate-price</code> 获取，下单确认后调用 <code style="color:var(--mc-yellow)">create-order</code></p>
     </div>
   </div>
@@ -614,20 +709,30 @@ function switchTab(name) {
   if (name === 'crave') calcCrave();
 }
 
-// ===== McFaith Index calculation =====
-function calcMcFaith(visits, points, coupons, sinceDays) {
-  // 活跃度 30%: visits, 12+次=满分
-  const activity = Math.min(visits / 12, 1) * 30;
-  // 消费 25%: points proxy, 2000+=满分
-  const consume = Math.min(points / 2000, 1) * 25;
-  // 积分 25%: same as points (already in consume, use combined)
-  const loyalty = Math.min(points / 2000, 1) * 25;
-  // 券包 20%: 3+张=满分
-  const couponScore = Math.min(coupons / 3, 1) * 20;
-  // 断食惩罚: >14天扣分
-  const fastPenalty = sinceDays > 14 ? Math.min((sinceDays - 14) * 2, 15) : 0;
-  const total = Math.max(0, Math.min(100, activity + consume + loyalty + couponScore - fastPenalty));
-  return Math.round(total);
+// ===== McFaith Index calculation（与 SKILL.md 四维权重严格一致）=====
+// 近期活跃度：按「距上次下单天数」阶梯给分，不是按下单次数
+function scoreActivity(sinceDays) {
+  if (sinceDays <= 3) return 100;
+  if (sinceDays <= 7) return 70;
+  if (sinceDays <= 14) return 40;
+  if (sinceDays <= 30) return 20;
+  return 0;
+}
+
+function calcMcFaith(spend, pointsTotal, coupons, sinceDays) {
+  const parts = [
+    { name: '近期活跃度', weight: 30, score: scoreActivity(sinceDays), color: '#FF6B35',
+      detail: `距今 ${sinceDays} 天` },
+    { name: '消费贡献', weight: 25, score: Math.min(spend / 1000, 1) * 100, color: '#FFC72C',
+      detail: `¥${spend} / ¥1000` },
+    // 用「累计积分」而非「可用积分」：余额会被兑换消耗，代表不了虔诚度
+    { name: '积分虔诚度', weight: 25, score: Math.min(pointsTotal / 2000, 1) * 100, color: '#4CAF50',
+      detail: `累计 ${pointsTotal} / 2000 分` },
+    { name: '券包厚度', weight: 20, score: Math.min(coupons * 20, 100), color: '#5599dd',
+      detail: `${coupons} 张券` }
+  ];
+  const total = parts.reduce((sum, p) => sum + p.score * p.weight / 100, 0);
+  return { total: Math.round(Math.max(0, Math.min(100, total))), parts };
 }
 
 function getMcFaithTier(score) {
@@ -651,11 +756,26 @@ function generateReport() {
   const since = parseInt(document.getElementById('in-since').value) || 0;
   const coupons = parseInt(document.getElementById('in-coupons').value) || 0;
   const points = parseInt(document.getElementById('in-points').value) || 0;
-  const totalVisits = parseInt(document.getElementById('in-total-visits').value) || count;
+  const pointsTotal = parseInt(document.getElementById('in-points-total').value) || 0;
 
   const avg = count > 0 ? Math.round(spend / count) : 0;
-  const mcfaith = calcMcFaith(totalVisits, points, coupons, since);
+  const mf = calcMcFaith(spend, pointsTotal, coupons, since);
+  const mcfaith = mf.total;
   const tier = getMcFaithTier(mcfaith);
+
+  // 逐维展示得分构成，让用户看得懂分数怎么来的
+  const breakdown = `
+  <div class="score-breakdown">
+    ${mf.parts.map(p => `
+      <div class="bd-item">
+        <div class="bd-head">
+          <span>${p.name} ${p.weight}%</span>
+          <span class="bd-detail">${p.detail}</span>
+          <span class="bd-val">${Math.round(p.score)} × ${p.weight}% = ${(p.score * p.weight / 100).toFixed(1)}</span>
+        </div>
+        <div class="bd-track"><div class="bd-fill" style="width:${Math.round(p.score)}%;background:${p.color};"></div></div>
+      </div>`).join('')}
+  </div>`;
 
   const fastStatus = since > 14
     ? `<span style="color:var(--mc-red);font-weight:600;">⚠️ 已 ${since} 天未吃，超过 14 天断食红线！</span>`
@@ -684,7 +804,7 @@ function generateReport() {
     <div class="stat-item"><span class="stat-icon">⏳</span> <span class="stat-label">最长断食</span><br><span class="stat-value">${fast} 天</span></div>
     <div class="stat-item"><span class="stat-icon">📊</span> <span class="stat-label">距上次吃麦门</span><br><span class="stat-value">${since} 天前</span><br><span class="stat-sub">${fastStatus}</span></div>
     <div class="stat-item"><span class="stat-icon">🎫</span> <span class="stat-label">券包</span><br><span class="stat-value">${coupons} 张</span></div>
-    <div class="stat-item"><span class="stat-icon">⭐</span> <span class="stat-label">当前积分</span><br><span class="stat-value">${points.toLocaleString()}</span></div>
+    <div class="stat-item"><span class="stat-icon">⭐</span> <span class="stat-label">积分</span><br><span class="stat-value">${points.toLocaleString()}</span><br><span class="stat-sub">累计获取 ${pointsTotal.toLocaleString()}</span></div>
     ${compare}
   </div>
   <hr class="divider">
@@ -692,6 +812,7 @@ function generateReport() {
     <span class="stat-label" style="display:block;margin-bottom:4px;">🏅 麦门指数</span>
     <span class="mcfaith-badge ${tier.cls}">${mcfaith} 分 · ${tier.title}</span>
     <p style="margin-top:8px;color:var(--mc-text-dim);font-size:0.85em;">${tier.desc}</p>
+    ${breakdown}
   </div>
   <hr class="divider">
   <p style="color:var(--mc-text-dim);font-size:0.78em;">所有数字均来自麦当劳 MCP 真实返回 · 工具调用失败时自动降级</p>
@@ -719,7 +840,7 @@ function shareReport() {
 🎫 ${r.coupons} 张券  ⭐ ${r.points} 积分
 🏅 麦门指数 ${r.mcfaith} · ${r.tier.title}
 ━━━━━━━━━━━━━━━━━━━━━━
-来生成你的麦门年度总结 → https://github.com/qingyebenye-tech/mcd-yearly`;
+测测你的麦门指数 → https://qingyebenye-tech.github.io/mcd-yearly/`;
 
   navigator.clipboard.writeText(text).then(() => {
     const toast = document.getElementById('toast');
@@ -739,23 +860,91 @@ function shareReport() {
   });
 }
 
-// ===== Crave Index =====
+// ===== Crave Index（与 SKILL.md 加权规则一致）=====
+const DOW_NAMES = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+// 样本不足时的通用星期偏好
+const GENERIC_DOW = [50, 50, 50, 50, 100, 90, 80];
+
+// 断食维度按阶梯给分：SKILL.md 里不是线性
+function scoreFasting(days) {
+  if (days <= 2) return 10;
+  if (days <= 6) return 40;
+  if (days <= 13) return 80;
+  return 100;
+}
+
+function readDistribution() {
+  return Array.from({ length: 7 }, (_, i) => {
+    const el = document.getElementById('dist-' + i);
+    return el ? (parseInt(el.value) || 0) : 0;
+  });
+}
+
+// 个人化星期偏好：今日占比 ÷ 历史最高占比 × 100；样本 < 5 单降级通用偏好
+function weekdayPreference(dist, dow) {
+  const total = dist.reduce((a, b) => a + b, 0);
+  const max = Math.max(...dist);
+  const maxIdx = dist.indexOf(max);
+
+  if (total < 5) {
+    return {
+      score: GENERIC_DOW[dow],
+      isHot: false,
+      personalized: false,
+      note: `历史订单只有 <b>${total}</b> 单（少于 5 单），样本不足，自动降级为通用星期偏好：${DOW_NAMES[dow]} 记 ${GENERIC_DOW[dow]} 分。`
+    };
+  }
+
+  const score = max > 0 ? Math.round(dist[dow] / max * 100) : 0;
+  const share = (dist[dow] / total * 100).toFixed(1);
+  const maxShare = (max / total * 100).toFixed(1);
+  const isHot = dow === maxIdx;
+
+  const note = `历史 <b>${total}</b> 单里，<b>${DOW_NAMES[dow]}</b> 下单 <b>${dist[dow]}</b> 次（占 ${share}%）` +
+    (isHot
+      ? `，是你一年里最固定的一天，星期偏好直接满分。`
+      : `，而最高频是 <b>${DOW_NAMES[maxIdx]}</b>（${max} 次，占 ${maxShare}%），所以今天是 ${dist[dow]} ÷ ${max} = ${score} 分。`);
+
+  return { score, isHot, personalized: true, note };
+}
+
+// 推荐餐品：规则驱动，不再用总分取模
+function pickMeal({ total, days, couponScore, campaignScore, isHot }) {
+  if (total < 40) {
+    return { label: '今日建议', name: '今天先别吃，攒攒期待值', reason: '宜吃指数偏低，这时候下单大概率吃不出快乐，不如等两天。' };
+  }
+  if (couponScore >= 100) {
+    return { label: '今日推荐', name: '麦辣鸡腿堡套餐（黄金六块 + 麦乐鸡）', reason: '你有一张 3 天内过期的券，今天用掉最划算，过期等于主动亏钱。' };
+  }
+  if (days >= 14) {
+    return { label: '今日推荐', name: '巨无霸套餐（中薯 + 可乐）', reason: `断食 ${days} 天，别犹豫，直接上招牌大套餐补回来。` };
+  }
+  if (campaignScore >= 100) {
+    return { label: '今日推荐', name: '双层吉士堡 + 麦乐鸡 6 块', reason: '赶上限时双件套活动，这样组比单点套餐更便宜。' };
+  }
+  if (isHot) {
+    return { label: '今日推荐', name: '安格斯黑椒厚牛堡套餐', reason: '今天正撞上你的高频吃麦日，值得吃点好的。' };
+  }
+  return { label: '今日推荐', name: '麦乐鸡 10 块 + 甜筒', reason: '轻量解馋，不占正餐的额度。' };
+}
+
 function calcCrave() {
   const days = parseInt(document.getElementById('crave-days').value) || 0;
-  const campaign = parseFloat(document.getElementById('crave-campaign').value);
-  const coupon = parseFloat(document.getElementById('crave-coupon').value);
-  const weekday = parseFloat(document.getElementById('crave-weekday').value);
+  const campaignScore = parseFloat(document.getElementById('crave-campaign').value);
+  const couponScore = parseFloat(document.getElementById('crave-coupon').value);
+  const dow = parseInt(document.getElementById('crave-dow').value) || 0;
 
-  // Normalize each factor to 0-100
-  const fastScore = Math.min(days / 14, 1) * 100;      // 14天=满分
-  const campaignScore = campaign * 100;
-  const couponScore = coupon * 100;
-  const weekdayScore = weekday * 100;
+  const dist = readDistribution();
+  const wd = weekdayPreference(dist, dow);
+  const fastScore = scoreFasting(days);
 
-  // Weighted: 30% + 25% + 25% + 20%
-  const total = Math.round(
-    fastScore * 0.30 + campaignScore * 0.25 + couponScore * 0.25 + weekdayScore * 0.20
-  );
+  const parts = [
+    { label: '断食天数', score: fastScore, weight: 30, color: '#FF6B35' },
+    { label: '今日活动', score: campaignScore, weight: 25, color: '#FFC72C' },
+    { label: '临期优惠券', score: couponScore, weight: 25, color: '#4CAF50' },
+    { label: '星期偏好', score: wd.score, weight: 20, color: '#5599dd' }
+  ];
+  const total = Math.round(parts.reduce((s, p) => s + p.score * p.weight / 100, 0));
 
   // Label
   let label, bg;
@@ -765,35 +954,31 @@ function calcCrave() {
   else if (total >= 20) { label = '🙂 不太宜吃'; bg = 'linear-gradient(90deg,#5577aa,#888)'; }
   else { label = '🙅 今天别吃了'; bg = 'linear-gradient(90deg,#DA291C,#5577aa)'; }
 
-  // Pick
-  const picks = [
-    '麦辣鸡腿堡套餐（黄金六块 + 麦乐鸡）',
-    '巨无霸套餐（中薯 + 可乐）',
-    '双层吉士堡 + 麦乐鸡 6 块',
-    '安格斯黑椒厚牛堡套餐',
-    '麦麦鸡块 10 块 + 甜筒'
-  ];
-  const pickIdx = total % picks.length;
-
   document.getElementById('crave-score').textContent = total + '%';
   document.getElementById('crave-label').textContent = label;
   document.getElementById('crave-bar').style.width = total + '%';
   document.getElementById('crave-bar').style.background = bg;
   document.getElementById('crave-bar').textContent = total;
-  document.getElementById('crave-pick').textContent = picks[pickIdx];
 
-  // Factors detail
-  const factors = [
-    { label: '断食天数', score: Math.round(fastScore), weight: '30%', fill: fastScore, color: '#FF6B35' },
-    { label: '今日活动', score: Math.round(campaignScore), weight: '25%', fill: campaignScore, color: '#FFC72C' },
-    { label: '临期优惠券', score: Math.round(couponScore), weight: '25%', fill: couponScore, color: '#4CAF50' },
-    { label: '星期偏好', score: Math.round(weekdayScore), weight: '20%', fill: weekdayScore, color: '#5599dd' }
-  ];
-  const factorsHtml = factors.map(f => `
+  // 推荐餐品 + 理由
+  const pick = pickMeal({ total, days, couponScore, campaignScore, isHot: wd.isHot });
+  document.getElementById('crave-pick-label').textContent = pick.label;
+  document.getElementById('crave-pick').textContent = pick.name;
+  document.getElementById('crave-pick').style.color = total < 40 ? 'var(--mc-text-dim)' : 'var(--mc-yellow)';
+  document.getElementById('crave-pick-reason').textContent = pick.reason;
+
+  // 星期分布说明
+  document.getElementById('dist-note').innerHTML = wd.note;
+  document.querySelectorAll('.dist-cell').forEach((cell, i) => {
+    cell.classList.toggle('hot', wd.personalized && i === dist.indexOf(Math.max(...dist)));
+  });
+
+  // 因子明细：单独得分 × 权重 = 实际贡献
+  const factorsHtml = parts.map(p => `
     <div class="crave-factor">
-      <div class="factor-label">${f.label}</div>
-      <div class="factor-weight-bar"><div class="factor-weight-fill" style="width:${f.fill}%;background:${f.color};"></div></div>
-      <div class="factor-weight">${f.weight}</div>
+      <div class="factor-label">${p.label}</div>
+      <div class="factor-weight-bar"><div class="factor-weight-fill" style="width:${Math.round(p.score)}%;background:${p.color};"></div></div>
+      <div class="factor-weight">${Math.round(p.score)} × ${p.weight}% = ${(p.score * p.weight / 100).toFixed(1)}</div>
     </div>
   `).join('');
   document.getElementById('crave-factors').innerHTML = factorsHtml;
