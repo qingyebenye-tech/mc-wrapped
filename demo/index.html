@@ -539,8 +539,12 @@
         <input type="number" id="in-coupons" value="3" min="0">
       </div>
       <div class="form-group">
-        <label>当前积分</label>
+        <label>当前可用积分</label>
         <input type="number" id="in-points" value="2350" min="0">
+      </div>
+      <div class="form-group">
+        <label>历史累计积分（不会被兑换消耗）</label>
+        <input type="number" id="in-points-total" value="3860" min="0">
       </div>
     </div>
     <p class="dist-note">麦门指数 = 近期活跃度 30% + 消费贡献 25% + 积分虔诚度 25% + 券包厚度 20%，生成后会在卡片里逐维展示得分构成。</p>
@@ -715,14 +719,15 @@ function scoreActivity(sinceDays) {
   return 0;
 }
 
-function calcMcFaith(spend, points, coupons, sinceDays) {
+function calcMcFaith(spend, pointsTotal, coupons, sinceDays) {
   const parts = [
     { name: '近期活跃度', weight: 30, score: scoreActivity(sinceDays), color: '#FF6B35',
       detail: `距今 ${sinceDays} 天` },
     { name: '消费贡献', weight: 25, score: Math.min(spend / 1000, 1) * 100, color: '#FFC72C',
       detail: `¥${spend} / ¥1000` },
-    { name: '积分虔诚度', weight: 25, score: Math.min(points / 1500, 1) * 100, color: '#4CAF50',
-      detail: `${points} / 1500 分` },
+    // 用「累计积分」而非「可用积分」：余额会被兑换消耗，代表不了虔诚度
+    { name: '积分虔诚度', weight: 25, score: Math.min(pointsTotal / 2000, 1) * 100, color: '#4CAF50',
+      detail: `累计 ${pointsTotal} / 2000 分` },
     { name: '券包厚度', weight: 20, score: Math.min(coupons * 20, 100), color: '#5599dd',
       detail: `${coupons} 张券` }
   ];
@@ -751,9 +756,10 @@ function generateReport() {
   const since = parseInt(document.getElementById('in-since').value) || 0;
   const coupons = parseInt(document.getElementById('in-coupons').value) || 0;
   const points = parseInt(document.getElementById('in-points').value) || 0;
+  const pointsTotal = parseInt(document.getElementById('in-points-total').value) || 0;
 
   const avg = count > 0 ? Math.round(spend / count) : 0;
-  const mf = calcMcFaith(spend, points, coupons, since);
+  const mf = calcMcFaith(spend, pointsTotal, coupons, since);
   const mcfaith = mf.total;
   const tier = getMcFaithTier(mcfaith);
 
@@ -798,7 +804,7 @@ function generateReport() {
     <div class="stat-item"><span class="stat-icon">⏳</span> <span class="stat-label">最长断食</span><br><span class="stat-value">${fast} 天</span></div>
     <div class="stat-item"><span class="stat-icon">📊</span> <span class="stat-label">距上次吃麦门</span><br><span class="stat-value">${since} 天前</span><br><span class="stat-sub">${fastStatus}</span></div>
     <div class="stat-item"><span class="stat-icon">🎫</span> <span class="stat-label">券包</span><br><span class="stat-value">${coupons} 张</span></div>
-    <div class="stat-item"><span class="stat-icon">⭐</span> <span class="stat-label">当前积分</span><br><span class="stat-value">${points.toLocaleString()}</span></div>
+    <div class="stat-item"><span class="stat-icon">⭐</span> <span class="stat-label">积分</span><br><span class="stat-value">${points.toLocaleString()}</span><br><span class="stat-sub">累计获取 ${pointsTotal.toLocaleString()}</span></div>
     ${compare}
   </div>
   <hr class="divider">

@@ -56,6 +56,17 @@ The annual report assigns you a title based on your McFaith score:
 | 30–49 | McDefector | Time to come back for a burger |
 | 0–29 | McProdigal | Go eat a burger and redeem yourself |
 
+The score is a weighted sum of four non-overlapping dimensions:
+
+| Dimension | Weight | Basis |
+|:---:|:---:|---|
+| Recent activity | 30% | Days since last order: ≤3 → 100 / 4-7 → 70 / 8-14 → 40 / 15-30 → 20 / more → 0 |
+| Spend contribution | 25% | This year's spend ÷ ¥1,000 |
+| Points devotion | 25% | **Lifetime points** ÷ 2,000 |
+| Coupon hoard | 20% | Coupons on hand × 20 |
+
+> The points dimension uses the **lifetime points** returned by `query-my-account`, not the available balance — balances get burned by redemptions, lottery draws, and expirations. A loyal regular who just redeemed a coupon could sit near zero, and scoring on balance would brand the most devoted users as defectors.
+
 ### 📅 Personalized Weekday Preference
 
 The weekday dimension of the Daily Crave Index isn't scored by a one-size-fits-all rule — it's computed from **your own historical order rhythm**:
@@ -81,7 +92,7 @@ No installation required — **[just open the link](https://qingyebenye-tech.git
 
 | Tab | Content |
 |:---:|---|
-| 📊 Annual Report Card | 11 inputs render a dark gold-themed card in real time, with auto-calculated McFaith Index + title and a per-dimension score breakdown |
+| 📊 Annual Report Card | 12 inputs render a dark gold-themed card in real time, with auto-calculated McFaith Index + title and a per-dimension score breakdown |
 | 🌤️ Daily Crave Index | Fasting days + today's campaign + expiring coupons + **your own weekday distribution** compute a 0–100 score live, with weighting details and a recommendation rationale |
 | ⚙️ How It Works | 8 MCP tool tags + call flow diagram + read/write separation principle |
 
@@ -152,7 +163,7 @@ Load [`SKILL.md`](SKILL.md) as a system prompt / Skill file in your AI client, t
 ⏳ Longest fast: 23 days
 📊 Days since last McDonald's: X
 🎫 Coupons on hand: 3
-⭐ Current points: 2,350
+⭐ Points: 2,350 available · 3,860 lifetime
 🏅 McFaith Index: 83 — McDevoted Follower
    Breakdown: activity 70×30% + spend 100×25% + points 100×25% + coupons 60×20% = 83
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
