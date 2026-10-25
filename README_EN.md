@@ -81,8 +81,8 @@ No installation required — **[just open the link](https://qingyebenye-tech.git
 
 | Tab | Content |
 |:---:|---|
-| 📊 Annual Report Card | 12 inputs render a dark gold-themed card in real time, with auto-calculated McFaith Index + title |
-| 🌤️ Daily Crave Index | 4 parameters compute a 0–100 score live, with weighted-factor visualization |
+| 📊 Annual Report Card | 11 inputs render a dark gold-themed card in real time, with auto-calculated McFaith Index + title and a per-dimension score breakdown |
+| 🌤️ Daily Crave Index | Fasting days + today's campaign + expiring coupons + **your own weekday distribution** compute a 0–100 score live, with weighting details and a recommendation rationale |
 | ⚙️ How It Works | 8 MCP tool tags + call flow diagram + read/write separation principle |
 
 Visitors need zero environment setup to run the core algorithms in the browser and understand how the 8 MCP tools collaborate — ideal for judges and potential users to experience the product value quickly.
@@ -153,7 +153,8 @@ Load [`SKILL.md`](SKILL.md) as a system prompt / Skill file in your AI client, t
 📊 Days since last McDonald's: X
 🎫 Coupons on hand: 3
 ⭐ Current points: 2,350
-🏅 McFaith Index: 87 — McDevoted Follower
+🏅 McFaith Index: 83 — McDevoted Follower
+   Breakdown: activity 70×30% + spend 100×25% + points 100×25% + coupons 60×20% = 83
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
@@ -168,13 +169,14 @@ Load [`SKILL.md`](SKILL.md) as a system prompt / Skill file in your AI client, t
 ```
 🌤️ Daily McD Briefing (Oct 25, Sun)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Crave Index: 92%  🔥 Highly Recommended
+Crave Index: 90%  🔥 Highly Recommended
 Today's pick: Spicy Chicken Sandwich Combo (6-piece Nuggets + McNuggets)
 Reasons:
-  1. You haven't had McDonald's in 9 days (weight 30%)
-  2. Today's "Programmers' Day" double combo campaign (weight 25%)
-  3. Your "BOGO coupon" expires the day after tomorrow (weight 25%)
-  4. Sunday chill day — comfort food mode activated (weight 20%)
+  1. You haven't had McDonald's in 9 days → fasting 80 (weight 30%, contributes 24)
+  2. Today's "Programmers' Day" double combo campaign → 100 (weight 25%, contributes 25)
+  3. Your "BOGO coupon" expires the day after tomorrow → 100 (weight 25%, contributes 25)
+  4. Sunday scores high by default; your Sunday sample is still thin → 80 (weight 20%, contributes 16)
+  = 24 + 25 + 25 + 16 = 90
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Want me to place the order? Reply "order"
 ```
