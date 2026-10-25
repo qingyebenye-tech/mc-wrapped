@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>麦门年度总结 · 在线演示 | McWrapped Demo</title>
-<meta name="description" content="基于麦当劳官方 MCP 的总结 Skill 在线演示 — 输入你的真实数据，生成年度账单卡片和分享海报">
+<meta name="description" content="基于麦当劳官方 MCP 的总结 Skill 在线演示 — 输入你的真实数据，生成年度账单卡片">
 <style>
   :root {
     --mc-red: #DA291C;
@@ -46,260 +46,339 @@
     opacity: 0.08;
     border-radius: 50%;
   }
-  .hero h1 { font-size: 2.4em; color: var(--mc-yellow); margin-bottom: 8px; text-shadow: 0 0 20px rgba(255,199,44,0.3); }
-  .hero .subtitle { color: var(--mc-text-dim); font-size: 1.05em; margin-bottom: 16px; }
-  .hero .badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-  .hero .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: 600; text-decoration: none; }
+  .hero h1 {
+    font-size: 2.4em;
+    color: var(--mc-yellow);
+    margin-bottom: 8px;
+    text-shadow: 0 0 20px rgba(255,199,44,0.3);
+  }
+  .hero .subtitle {
+    color: var(--mc-text-dim);
+    font-size: 1.05em;
+    margin-bottom: 16px;
+  }
+  .hero .badges {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: 600;
+    text-decoration: none;
+  }
   .badge-mit { background: #555; color: #fff; }
   .badge-mcp { background: var(--mc-yellow); color: var(--mc-dark); }
   .badge-contest { background: var(--mc-orange); color: #fff; }
   /* ===== Tabs ===== */
-  .tabs { display: flex; justify-content: center; gap: 4px; padding: 16px 20px 0; max-width: 860px; margin: 0 auto; flex-wrap: wrap; }
-  .tab-btn { padding: 10px 18px; background: var(--mc-card); border: 1px solid #3a3a5c; color: var(--mc-text-dim); border-radius: 8px 8px 0 0; cursor: pointer; font-size: 0.92em; transition: all 0.2s; }
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 16px 20px 0;
+    max-width: 800px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  .tab-btn {
+    padding: 10px 20px;
+    background: var(--mc-card);
+    border: 1px solid #3a3a5c;
+    color: var(--mc-text-dim);
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: all 0.2s;
+  }
   .tab-btn:hover { background: #2f2f50; color: var(--mc-text); }
-  .tab-btn.active { background: var(--mc-dark); border-bottom-color: var(--mc-dark); color: var(--mc-yellow); font-weight: 600; }
+  .tab-btn.active {
+    background: var(--mc-dark);
+    border-bottom-color: var(--mc-dark);
+    color: var(--mc-yellow);
+    font-weight: 600;
+  }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
-  .container { max-width: 860px; margin: 0 auto; padding: 20px; }
+  /* ===== Container ===== */
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
   /* ===== Input Form ===== */
-  .form-section { background: var(--mc-card); border-radius: 12px; padding: 24px; margin-bottom: 24px; border: 1px solid #3a3a5c; }
-  .form-section h2 { color: var(--mc-yellow); font-size: 1.3em; margin-bottom: 16px; border-bottom: 1px solid #3a3a5c; padding-bottom: 8px; }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .form-section {
+    background: var(--mc-card);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid #3a3a5c;
+  }
+  .form-section h2 {
+    color: var(--mc-yellow);
+    font-size: 1.3em;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #3a3a5c;
+    padding-bottom: 8px;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
   @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
   .form-group { display: flex; flex-direction: column; }
-  .form-group label { font-size: 0.85em; color: var(--mc-text-dim); margin-bottom: 4px; }
-  .form-group input, .form-group select { background: var(--mc-darker); border: 1px solid #444; color: var(--mc-text); padding: 8px 12px; border-radius: 6px; font-size: 0.95em; }
-  .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--mc-yellow); }
-  .btn-generate { width: 100%; margin-top: 16px; padding: 12px; background: var(--mc-red); color: #fff; border: none; border-radius: 8px; font-size: 1.05em; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .form-group label {
+    font-size: 0.85em;
+    color: var(--mc-text-dim);
+    margin-bottom: 4px;
+  }
+  .form-group input, .form-group select {
+    background: var(--mc-darker);
+    border: 1px solid #444;
+    color: var(--mc-text);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.95em;
+  }
+  .form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--mc-yellow);
+  }
+  .btn-generate {
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    background: var(--mc-red);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.05em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
   .btn-generate:hover { background: #b8221a; transform: translateY(-1px); }
+  .btn-generate:active { transform: translateY(0); }
   /* ===== Report Card ===== */
-  .report-card { background: linear-gradient(135deg, var(--mc-dark) 0%, #2a1a0e 100%); border: 2px solid var(--mc-yellow); border-radius: 16px; padding: 32px 28px; text-align: center; position: relative; overflow: hidden; margin-bottom: 20px; }
-  .report-card::before { content: ""; position: absolute; top: -30%; left: -10%; width: 200px; height: 200px; background: radial-gradient(circle, var(--mc-red) 0%, transparent 70%); opacity: 0.1; border-radius: 50%; }
-  .report-card::after { content: ""; position: absolute; bottom: -30%; right: -10%; width: 200px; height: 200px; background: radial-gradient(circle, var(--mc-yellow) 0%, transparent 70%); opacity: 0.08; border-radius: 50%; }
-  .report-card .card-title { font-size: 1.6em; color: var(--mc-yellow); margin-bottom: 4px; position: relative; }
-  .report-card .card-year { color: var(--mc-text-dim); font-size: 0.85em; margin-bottom: 20px; position: relative; }
-  .report-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; text-align: left; position: relative; margin-bottom: 20px; }
+  .report-card {
+    background: linear-gradient(135deg, var(--mc-dark) 0%, #2a1a0e 100%);
+    border: 2px solid var(--mc-yellow);
+    border-radius: 16px;
+    padding: 32px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .report-card::before {
+    content: "";
+    position: absolute;
+    top: -30%;
+    left: -10%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--mc-red) 0%, transparent 70%);
+    opacity: 0.1;
+    border-radius: 50%;
+  }
+  .report-card::after {
+    content: "";
+    position: absolute;
+    bottom: -30%;
+    right: -10%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, var(--mc-yellow) 0%, transparent 70%);
+    opacity: 0.08;
+    border-radius: 50%;
+  }
+  .report-card .card-title {
+    font-size: 1.6em;
+    color: var(--mc-yellow);
+    margin-bottom: 4px;
+    position: relative;
+  }
+  .report-card .card-year {
+    color: var(--mc-text-dim);
+    font-size: 0.85em;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .report-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 24px;
+    text-align: left;
+    position: relative;
+    margin-bottom: 20px;
+  }
   .stat-item .stat-icon { font-size: 1.2em; }
   .stat-item .stat-label { font-size: 0.78em; color: var(--mc-text-dim); }
   .stat-item .stat-value { font-size: 1.15em; color: var(--mc-text); font-weight: 600; }
   .stat-item .stat-sub { font-size: 0.75em; color: var(--mc-text-dim); }
-  .divider { border: none; border-top: 1px dashed #444; margin: 16px 0; position: relative; }
-  .mcfaith-badge { display: inline-block; padding: 8px 20px; border-radius: 24px; font-size: 1.05em; font-weight: 700; margin-top: 8px; position: relative; }
+  .divider {
+    border: none;
+    border-top: 1px dashed #444;
+    margin: 16px 0;
+    position: relative;
+  }
+  .mcfaith-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 24px;
+    font-size: 1.05em;
+    font-weight: 700;
+    margin-top: 8px;
+    position: relative;
+  }
   .mcfaith-90 { background: linear-gradient(135deg, #FFD700, #FFA500); color: #1a1a2e; }
   .mcfaith-70 { background: var(--mc-yellow); color: var(--mc-dark); }
   .mcfaith-50 { background: #888; color: #fff; }
   .mcfaith-30 { background: #5577aa; color: #fff; }
-  .mcfaith-0 { background: var(--mc-red); color: #fff; }
+  .mcfaith-0  { background: var(--mc-red); color: #fff; }
   /* ===== Crave Index ===== */
-  .crave-panel { background: var(--mc-card); border-radius: 12px; padding: 24px; border: 1px solid #3a3a5c; margin-bottom: 20px; }
-  .crave-panel h2 { color: var(--mc-yellow); margin-bottom: 16px; font-size: 1.3em; }
-  .crave-score-display { text-align: center; margin-bottom: 20px; }
-  .crave-score-big { font-size: 3em; font-weight: 700; color: var(--mc-yellow); }
+  .crave-panel {
+    background: var(--mc-card);
+    border-radius: 12px;
+    padding: 24px;
+    border: 1px solid #3a3a5c;
+    margin-bottom: 20px;
+  }
+  .crave-panel h2 {
+    color: var(--mc-yellow);
+    margin-bottom: 16px;
+    font-size: 1.3em;
+  }
+  .crave-score-display {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .crave-score-big {
+    font-size: 3em;
+    font-weight: 700;
+    color: var(--mc-yellow);
+  }
   .crave-score-label { color: var(--mc-text-dim); font-size: 0.9em; }
-  .crave-bar-container { background: var(--mc-darker); border-radius: 12px; height: 24px; overflow: hidden; margin-bottom: 20px; position: relative; }
-  .crave-bar-fill { height: 100%; border-radius: 12px; transition: width 0.8s ease, background 0.4s; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; font-size: 0.8em; color: var(--mc-dark); font-weight: 700; }
-  .crave-factors { display: flex; flex-direction: column; gap: 10px; }
-  .crave-factor { display: flex; align-items: center; gap: 12px; }
-  .factor-weight-bar { flex: 1; height: 8px; background: var(--mc-darker); border-radius: 4px; overflow: hidden; }
-  .factor-weight-fill { height: 100%; border-radius: 4px; transition: width 0.6s; }
+  .crave-bar-container {
+    background: var(--mc-darker);
+    border-radius: 12px;
+    height: 24px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .crave-bar-fill {
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.8s ease, background 0.4s;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    font-size: 0.8em;
+    color: var(--mc-dark);
+    font-weight: 700;
+  }
+  .crave-factors {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .crave-factor {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .factor-weight-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--mc-darker);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .factor-weight-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s;
+  }
   .factor-label { font-size: 0.85em; width: 180px; flex-shrink: 0; }
   .factor-weight { font-size: 0.8em; color: var(--mc-text-dim); width: 40px; text-align: right; }
-  /* ===== Workflow ===== */
-  .workflow-section { background: var(--mc-card); border-radius: 12px; padding: 24px; border: 1px solid #3a3a5c; }
-  .workflow-section h2 { color: var(--mc-yellow); margin-bottom: 16px; font-size: 1.3em; }
-  .workflow-diagram { background: var(--mc-darker); border-radius: 8px; padding: 20px; font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", monospace; font-size: 0.82em; line-height: 1.5; overflow-x: auto; color: var(--mc-text); white-space: pre; }
-  .tool-tag { display: inline-block; background: var(--mc-darker); border: 1px solid var(--mc-yellow); color: var(--mc-yellow); padding: 2px 8px; border-radius: 4px; font-family: monospace; font-size: 0.85em; margin: 2px; }
-
-  /* ========================================
-     POSTER (3:4 vertical share poster)
-     ======================================== */
-  .poster-section { background: var(--mc-card); border-radius: 12px; padding: 24px; border: 1px solid #3a3a5c; }
-  .poster-section h2 { color: var(--mc-yellow); margin-bottom: 16px; font-size: 1.3em; }
-  .poster-controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; justify-content: center; }
-  .btn-poster {
-    padding: 12px 28px;
-    background: linear-gradient(135deg, var(--mc-red), #b8221a);
-    color: #fff; border: none; border-radius: 10px;
-    font-size: 1.05em; font-weight: 700; cursor: pointer;
-    transition: all 0.2s; box-shadow: 0 4px 15px rgba(218,41,28,0.3);
-  }
-  .btn-poster:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(218,41,28,0.4); }
-  .btn-poster.secondary { background: var(--mc-card); color: var(--mc-yellow); border: 1px solid var(--mc-yellow); box-shadow: none; }
-  .btn-poster.secondary:hover { background: var(--mc-darker); }
-
-  /* The poster canvas - 3:4 ratio (450x600) */
-  .poster-wrapper {
-    display: flex; justify-content: center; margin: 20px 0;
-    perspective: 1000px;
-  }
-  #poster-canvas {
-    width: 480px; height: 640px;
-    border-radius: 16px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,199,44,0.2);
-    overflow: hidden;
-    position: relative;
-    background: var(--mc-darker);
-  }
-  @media (max-width: 500px) {
-    #poster-canvas { width: 100%; height: auto; aspect-ratio: 3/4; }
-  }
-
-  /* Poster inner content */
-  .poster-inner {
-    width: 100%; height: 100%;
-    background: linear-gradient(160deg, #0f0f1e 0%, #1a1520 30%, #2a1a0e 70%, #1a1520 100%);
-    display: flex; flex-direction: column;
-    position: relative; overflow: hidden;
-  }
-  /* Decorative glow */
-  .poster-inner::before {
-    content: ""; position: absolute; top: -20%; right: -15%;
-    width: 250px; height: 250px;
-    background: radial-gradient(circle, rgba(255,199,44,0.15) 0%, transparent 60%);
-    border-radius: 50%;
-  }
-  .poster-inner::after {
-    content: ""; position: absolute; bottom: -20%; left: -15%;
-    width: 250px; height: 250px;
-    background: radial-gradient(circle, rgba(218,41,28,0.12) 0%, transparent 60%);
-    border-radius: 50%;
-  }
-
-  /* Header */
-  .poster-header { padding: 20px 28px 13px; text-align: center; position: relative; z-index: 1; }
-  .poster-header .p-brand {
-    color: var(--mc-yellow); font-size: 0.6em; letter-spacing: 3px;
-    text-transform: uppercase; opacity: 0.75; margin-bottom: 4px;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-  .poster-header .p-brand::before, .poster-header .p-brand::after {
-    content: ""; width: 18px; height: 1px;
-    background: linear-gradient(90deg, transparent, var(--mc-yellow));
-  }
-  .poster-header .p-brand::after { background: linear-gradient(90deg, var(--mc-yellow), transparent); }
-  .poster-header .p-title { font-size: 1.65em; font-weight: 800; color: #fff; letter-spacing: 1px; }
-  .poster-header .p-year { color: var(--mc-text-dim); font-size: 0.65em; margin-top: 1px; }
-
-  /* MBTI section */
-  .poster-mbti {
-    margin: 0 24px; padding: 11px 15px;
-    background: linear-gradient(135deg, rgba(255,199,44,0.12), rgba(218,41,28,0.08));
-    border: 1px solid rgba(255,199,44,0.25);
+  /* ===== Work Flow ===== */
+  .workflow-section {
+    background: var(--mc-card);
     border-radius: 12px;
-    display: flex; align-items: center; gap: 13px;
-    position: relative; z-index: 1;
+    padding: 24px;
+    border: 1px solid #3a3a5c;
   }
-  .mbti-code {
-    font-size: 1.9em; font-weight: 900;
-    background: linear-gradient(135deg, #FFC72C, #FF6B35);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text; letter-spacing: 2px; line-height: 1;
+  .workflow-section h2 { color: var(--mc-yellow); margin-bottom: 16px; font-size: 1.3em; }
+  .workflow-diagram {
+    background: var(--mc-darker);
+    border-radius: 8px;
+    padding: 20px;
+    font-family: "Cascadia Code", "Fira Code", "JetBrains Mono", monospace;
+    font-size: 0.82em;
+    line-height: 1.5;
+    overflow-x: auto;
+    color: var(--mc-text);
+    white-space: pre;
   }
-  .mbti-info { flex: 1; }
-  .mbti-name { font-size: 0.92em; font-weight: 700; color: var(--mc-yellow); }
-  .mbti-desc { font-size: 0.66em; color: var(--mc-text-dim); margin-top: 1px; }
-
-  /* Heatmap */
-  .poster-heatmap {
-    margin: 11px 24px; position: relative; z-index: 1;
+  .tool-tag {
+    display: inline-block;
+    background: var(--mc-darker);
+    border: 1px solid var(--mc-yellow);
+    color: var(--mc-yellow);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.85em;
+    margin: 2px;
   }
-  .heatmap-title { font-size: 0.6em; color: var(--mc-text-dim); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-  .heatmap-grid {
-    display: grid; grid-template-columns: repeat(26, 1fr); gap: 1.2px;
-    background: rgba(0,0,0,0.2); padding: 5px; border-radius: 8px;
-  }
-  .heatmap-cell { aspect-ratio: 1; border-radius: 1.5px; background: rgba(255,255,255,0.03); }
-  .heatmap-cell.l1 { background: rgba(255,199,44,0.15); }
-  .heatmap-cell.l2 { background: rgba(255,199,44,0.35); }
-  .heatmap-cell.l3 { background: rgba(255,199,44,0.6); }
-  .heatmap-cell.l4 { background: rgba(255,107,53,0.8); }
-  .heatmap-legend { display: flex; align-items: center; gap: 4px; margin-top: 5px; font-size: 0.55em; color: var(--mc-text-dim); }
-  .heatmap-legend .sq { width: 8px; height: 8px; border-radius: 2px; }
-
-  /* Stats grid */
-  .poster-stats {
-    margin: 9px 24px; position: relative; z-index: 1;
-    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 7px;
-  }
-  .p-stat {
-    text-align: center;
-    background: rgba(255,255,255,0.03);
-    border-radius: 8px; padding: 6px 3px;
-  }
-  .p-stat .p-val { font-size: 1.15em; font-weight: 800; color: var(--mc-yellow); }
-  .p-stat .p-lbl { font-size: 0.54em; color: var(--mc-text-dim); margin-top: 1px; }
-
-  /* Big number */
-  .poster-bignum {
-    margin: 7px 24px; text-align: center; position: relative; z-index: 1;
-  }
-  .bignum-value { font-size: 2.4em; font-weight: 900; color: #fff; line-height: 1; }
-  .bignum-value .unit { font-size: 0.38em; color: var(--mc-text-dim); font-weight: 400; }
-  .bignum-label { font-size: 0.63em; color: var(--mc-text-dim); margin-top: 2px; }
-
-  /* McFaith badge in poster */
-  .poster-faith {
-    margin: 7px 24px; text-align: center; position: relative; z-index: 1;
-  }
-  .faith-badge-p {
-    display: inline-block; padding: 5px 16px; border-radius: 20px;
-    font-size: 0.76em; font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-  .faith-badge-p .fb-icon {
-    display: inline-block; width: 13px; height: 13px;
-    vertical-align: -1px; margin-right: 5px;
-    background: currentColor;
-    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2z'/%3E%3C/svg%3E") center/contain no-repeat;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8L12 2z'/%3E%3C/svg%3E") center/contain no-repeat;
-  }
-
-  /* Footer */
-  .poster-footer {
-    margin-top: auto; padding: 10px 24px 12px;
-    text-align: center; position: relative; z-index: 1;
-    border-top: 1px solid rgba(255,199,44,0.1);
-  }
-  .poster-footer .p-tagline { color: var(--mc-text-dim); font-size: 0.58em; margin-bottom: 5px; }
-  .poster-footer .p-qr {
-    width: 42px; height: 42px; margin: 0 auto 4px;
-    background: #fff; border-radius: 5px; padding: 2px;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-  .poster-footer .p-qr svg { width: 100%; height: 100%; display: block; }
-  .poster-footer .p-link { color: var(--mc-yellow); font-size: 0.55em; font-weight: 600; }
-
-  /* ===== Social share buttons ===== */
-  .social-share {
-    display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap;
-  }
-  .social-btn {
-    display: flex; align-items: center; gap: 6px;
-    padding: 10px 20px; border-radius: 10px;
-    font-size: 0.9em; font-weight: 600; cursor: pointer;
-    border: none; transition: all 0.2s; text-decoration: none;
-  }
-  .social-btn:hover { transform: translateY(-2px); }
-  .sb-weibo { background: #E6162D; color: #fff; }
-  .sb-x { background: #000; color: #fff; }
-  .sb-red { background: #FF2442; color: #fff; }
-  .sb-copy { background: var(--mc-card); color: var(--mc-yellow); border: 1px solid var(--mc-yellow); }
-  .sb-save { background: var(--mc-green); color: #fff; }
-
-  /* ===== Toast ===== */
-  .toast {
-    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-    background: var(--mc-green); color: #fff; padding: 10px 24px;
-    border-radius: 8px; font-size: 0.9em; opacity: 0;
-    transition: opacity 0.3s; pointer-events: none; z-index: 1000;
-  }
-  .toast.show { opacity: 1; }
-
   /* ===== Footer ===== */
-  footer { text-align: center; padding: 30px 20px; color: var(--mc-text-dim); font-size: 0.85em; border-top: 1px solid #2a2a40; margin-top: 20px; }
+  footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--mc-text-dim);
+    font-size: 0.85em;
+    border-top: 1px solid #2a2a40;
+    margin-top: 20px;
+  }
   footer a { color: var(--mc-yellow); text-decoration: none; }
   footer a:hover { text-decoration: underline; }
+  .btn-share {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 10px 24px;
+    background: var(--mc-yellow);
+    color: var(--mc-dark);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .btn-share:hover { opacity: 0.9; }
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--mc-green);
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 0.9em;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: 1000;
+  }
+  .toast.show { opacity: 1; }
 </style>
 </head>
 <body>
@@ -318,133 +397,163 @@
 <!-- ===== Tabs ===== -->
 <div class="tabs">
   <button class="tab-btn active" onclick="switchTab('annual')">📊 年度总结</button>
-  <button class="tab-btn" onclick="switchTab('crave')">🌤️ 今日宜吃</button>
-  <button class="tab-btn" onclick="switchTab('poster')">🎨 分享海报</button>
+  <button class="tab-btn" onclick="switchTab('crave')">🌤️ 今日宜吃指数</button>
   <button class="tab-btn" onclick="switchTab('workflow')">⚙️ 工作原理</button>
 </div>
 
 <!-- ===== Tab 1: Annual Report ===== -->
 <div class="container">
 <div id="tab-annual" class="tab-content active">
+
   <div class="form-section">
     <h2>📝 输入你的麦门数据</h2>
     <p style="color:var(--mc-text-dim);font-size:0.85em;margin-bottom:12px;">实际使用时，这些数据由麦当劳 MCP 工具 <code style="color:var(--mc-yellow)">order-list</code> / <code style="color:var(--mc-yellow)">query-my-account</code> / <code style="color:var(--mc-yellow)">query-my-coupons</code> 自动获取。此处为演示，可手动填写或用默认值。</p>
     <div class="form-grid">
-      <div class="form-group"><label>今年吃了几次？</label><input type="number" id="in-count" value="47" min="0" oninput="generateReport()"></div>
-      <div class="form-group"><label>累计花了多少钱（¥）</label><input type="number" id="in-spend" value="1286" min="0" oninput="generateReport()"></div>
-      <div class="form-group"><label>最爱餐品</label><input type="text" id="in-fav" value="巨无霸" oninput="generateReport()"></div>
-      <div class="form-group"><label>最爱餐品点了几次</label><input type="number" id="in-fav-count" value="12" min="0" oninput="generateReport()"></div>
-      <div class="form-group"><label>吃得最多的月份</label>
-        <select id="in-month" onchange="generateReport()">
-          <option value="1月">1月</option><option value="2月">2月</option><option value="3月">3月</option><option value="4月">4月</option><option value="5月">5月</option><option value="6月">6月</option><option value="7月" selected>7月</option><option value="8月">8月</option><option value="9月">9月</option><option value="10月">10月</option><option value="11月">11月</option><option value="12月">12月</option>
+      <div class="form-group">
+        <label>今年吃了几次？</label>
+        <input type="number" id="in-count" value="47" min="0">
+      </div>
+      <div class="form-group">
+        <label>累计花了多少钱（¥）</label>
+        <input type="number" id="in-spend" value="1286" min="0">
+      </div>
+      <div class="form-group">
+        <label>最爱餐品</label>
+        <input type="text" id="in-fav" value="巨无霸">
+      </div>
+      <div class="form-group">
+        <label>最爱餐品点了几次</label>
+        <input type="number" id="in-fav-count" value="12" min="0">
+      </div>
+      <div class="form-group">
+        <label>吃得最多的月份</label>
+        <select id="in-month">
+          <option value="1月">1月</option><option value="2月">2月</option><option value="3月">3月</option>
+          <option value="4月">4月</option><option value="5月">5月</option><option value="6月">6月</option>
+          <option value="7月" selected>7月</option><option value="8月">8月</option><option value="9月">9月</option>
+          <option value="10月">10月</option><option value="11月">11月</option><option value="12月">12月</option>
         </select>
       </div>
-      <div class="form-group"><label>该月吃了几次</label><input type="number" id="in-month-count" value="9" min="0" oninput="generateReport()"></div>
-      <div class="form-group"><label>最常下单星期几</label>
-        <select id="in-weekday" onchange="generateReport()">
-          <option value="周一">周一</option><option value="周二">周二</option><option value="周三">周三</option><option value="周四">周四</option><option value="周五" selected>周五</option><option value="周六">周六</option><option value="周日">周日</option>
+      <div class="form-group">
+        <label>该月吃了几次</label>
+        <input type="number" id="in-month-count" value="9" min="0">
+      </div>
+      <div class="form-group">
+        <label>最常下单星期几</label>
+        <select id="in-weekday">
+          <option value="周一">周一</option><option value="周二">周二</option><option value="周三">周三</option>
+          <option value="周四">周四</option><option value="周五" selected>周五</option><option value="周六">周六</option>
+          <option value="周日">周日</option>
         </select>
       </div>
-      <div class="form-group"><label>最长断食几天</label><input type="number" id="in-fast" value="23" min="0" oninput="generateReport()"></div>
-      <div class="form-group"><label>距上次吃过了几天</label><input type="number" id="in-since" value="5" min="0" oninput="generateReport()"></div>
-      <div class="form-group"><label>手上有几张券</label><input type="number" id="in-coupons" value="3" min="0" oninput="generateReport()"></div>
-      <div class="form-group"><label>当前积分</label><input type="number" id="in-points" value="2350" min="0" oninput="generateReport()"></div>
-      <div class="form-group"><label>今年总消费次数（用于指数）</label><input type="number" id="in-total-visits" value="47" min="0" oninput="generateReport()"></div>
+      <div class="form-group">
+        <label>最长断食几天</label>
+        <input type="number" id="in-fast" value="23" min="0">
+      </div>
+      <div class="form-group">
+        <label>距上次吃过了几天</label>
+        <input type="number" id="in-since" value="5" min="0">
+      </div>
+      <div class="form-group">
+        <label>手上有几张券</label>
+        <input type="number" id="in-coupons" value="3" min="0">
+      </div>
+      <div class="form-group">
+        <label>当前积分</label>
+        <input type="number" id="in-points" value="2350" min="0">
+      </div>
+      <div class="form-group">
+        <label>今年总消费次数（用于指数）</label>
+        <input type="number" id="in-total-visits" value="47" min="0">
+      </div>
     </div>
+    <button class="btn-generate" onclick="generateReport()">生成我的年度总结卡片</button>
   </div>
+
   <div id="report-output"></div>
+
 </div>
 
 <!-- ===== Tab 2: Crave Index ===== -->
 <div id="tab-crave" class="tab-content">
+
   <div class="form-section">
     <h2>🌤️ 今日宜吃指数计算器</h2>
     <p style="color:var(--mc-text-dim);font-size:0.85em;margin-bottom:12px;">宜吃指数 = 断食天数(30%) + 今日活动(25%) + 临期优惠券(25%) + 星期偏好(20%)。调整下方参数，实时查看指数变化。</p>
     <div class="form-grid">
-      <div class="form-group"><label>距上次吃麦门过了几天</label><input type="number" id="crave-days" value="9" min="0" max="60" oninput="calcCrave()"></div>
-      <div class="form-group"><label>今天有促销活动吗？</label>
+      <div class="form-group">
+        <label>距上次吃麦门过了几天</label>
+        <input type="number" id="crave-days" value="9" min="0" max="60" oninput="calcCrave()">
+      </div>
+      <div class="form-group">
+        <label>今天有促销活动吗？</label>
         <select id="crave-campaign" onchange="calcCrave()">
-          <option value="1" selected>有 · 程序员节双件套</option><option value="0.5">小活动 · 第二份半价</option><option value="0">无活动</option>
+          <option value="1" selected>有 · 程序员节双件套</option>
+          <option value="0.5">小活动 · 第二份半价</option>
+          <option value="0">无活动</option>
         </select>
       </div>
-      <div class="form-group"><label>有临期优惠券吗（几天内过期）</label>
+      <div class="form-group">
+        <label>有临期优惠券吗（几天内过期）</label>
         <select id="crave-coupon" onchange="calcCrave()">
-          <option value="1" selected>有 · 后天过期</option><option value="0.5">有 · 一周内过期</option><option value="0">无临期券</option>
+          <option value="1" selected>有 · 后天过期</option>
+          <option value="0.5">有 · 一周内过期</option>
+          <option value="0">无临期券</option>
         </select>
       </div>
-      <div class="form-group"><label>今天是星期几</label>
+      <div class="form-group">
+        <label>今天是星期几</label>
         <select id="crave-weekday" onchange="calcCrave()">
-          <option value="0.3">周一</option><option value="0.4">周二</option><option value="0.5">周三</option><option value="0.6">周四</option><option value="0.7">周五</option><option value="1" selected>周六</option><option value="0.9">周日</option>
+          <option value="0.3">周一</option>
+          <option value="0.4">周二</option>
+          <option value="0.5">周三</option>
+          <option value="0.6">周四</option>
+          <option value="0.7">周五</option>
+          <option value="1" selected>周六</option>
+          <option value="0.9">周日</option>
         </select>
       </div>
     </div>
   </div>
+
   <div class="crave-panel" id="crave-result">
     <h2>🌤️ 今日麦门简报</h2>
-    <div class="crave-score-display"><div class="crave-score-big" id="crave-score">92%</div><div class="crave-score-label" id="crave-label">🔥 非常宜吃</div></div>
-    <div class="crave-bar-container"><div class="crave-bar-fill" id="crave-bar" style="width:92%;background:linear-gradient(90deg,#FF6B35,#FFC72C);">92</div></div>
+    <div class="crave-score-display">
+      <div class="crave-score-big" id="crave-score">92%</div>
+      <div class="crave-score-label" id="crave-label">🔥 非常宜吃</div>
+    </div>
+    <div class="crave-bar-container">
+      <div class="crave-bar-fill" id="crave-bar" style="width:92%;background:linear-gradient(90deg,#FF6B35,#FFC72C);">92</div>
+    </div>
     <div class="crave-factors" id="crave-factors"></div>
     <hr class="divider">
     <div style="text-align:center;">
-      <p style="color:var(--mc-text-dim);font-size:0.9em;">今日推荐：<span id="crave-pick" style="color:var(--mc-yellow);font-weight:600;">麦辣鸡腿堡套餐</span></p>
-      <p style="color:var(--mc-text-dim);font-size:0.8em;margin-top:8px;">实际使用时由 <code style="color:var(--mc-yellow)">query-meals</code> + <code style="color:var(--mc-yellow)">calculate-price</code> 获取，下单确认后调用 <code style="color:var(--mc-yellow)">create-order</code></p>
+      <p style="color:var(--mc-text-dim);font-size:0.9em;">今日推荐：<span id="crave-pick" style="color:var(--mc-yellow);font-weight:600;">麦辣鸡腿堡套餐（黄金六块 + 麦乐鸡）</span></p>
+      <p style="color:var(--mc-text-dim);font-size:0.8em;margin-top:8px;">实际使用时，推荐餐品由 <code style="color:var(--mc-yellow)">query-meals</code> + <code style="color:var(--mc-yellow)">calculate-price</code> 获取，下单确认后调用 <code style="color:var(--mc-yellow)">create-order</code></p>
     </div>
   </div>
+
 </div>
 
-<!-- ===== Tab 3: Poster ===== -->
-<div id="tab-poster" class="tab-content">
-  <div class="poster-section">
-    <h2>🎨 生成你的分享海报</h2>
-    <p style="color:var(--mc-text-dim);font-size:0.85em;margin-bottom:16px;">基于你的麦门数据，一键生成 3:4 竖版精美海报，包含麦门 MBTI 人格 + 消费热力图 + 年度数据。截图即可分享到小红书 / 朋友圈 / 微博。</p>
-
-    <div class="poster-controls">
-      <button class="btn-poster" onclick="generatePoster()">🎨 生成海报</button>
-      <button class="btn-poster secondary" onclick="downloadPoster()">💾 下载图片</button>
-    </div>
-
-    <!-- Quick data adjust (shares state with the form tab) -->
-    <details style="background:var(--mc-darker);border-radius:10px;padding:14px 16px;margin-bottom:18px;border:1px solid #3a3a5c;">
-      <summary style="cursor:pointer;color:var(--mc-yellow);font-size:0.92em;font-weight:600;">⚙️ 快速调整数据（也可切到「年度总结」Tab 修改）</summary>
-      <div class="form-grid" style="margin-top:14px;">
-        <div class="form-group"><label>今年吃了几次？</label><input type="number" id="p-count" value="47" min="0" oninput="syncFromPoster()"></div>
-        <div class="form-group"><label>累计花了多少钱（¥）</label><input type="number" id="p-spend" value="1286" min="0" oninput="syncFromPoster()"></div>
-        <div class="form-group"><label>最爱餐品</label><input type="text" id="p-fav" value="巨无霸" oninput="syncFromPoster()"></div>
-        <div class="form-group"><label>最爱餐品点了几次</label><input type="number" id="p-fav-count" value="12" min="0" oninput="syncFromPoster()"></div>
-        <div class="form-group"><label>最长断食几天</label><input type="number" id="p-fast" value="23" min="0" oninput="syncFromPoster()"></div>
-        <div class="form-group"><label>距上次吃过了几天</label><input type="number" id="p-since" value="5" min="0" oninput="syncFromPoster()"></div>
-        <div class="form-group"><label>手上有几张券</label><input type="number" id="p-coupons" value="3" min="0" oninput="syncFromPoster()"></div>
-        <div class="form-group"><label>当前积分</label><input type="number" id="p-points" value="2350" min="0" oninput="syncFromPoster()"></div>
-      </div>
-    </details>
-
-    <div class="poster-wrapper">
-      <div id="poster-canvas">
-        <div class="poster-inner" id="poster-inner">
-          <!-- Content will be injected by JS -->
-        </div>
-      </div>
-    </div>
-
-    <div class="social-share">
-      <button class="social-btn sb-weibo" onclick="shareTo('weibo')">📱 分享到微博</button>
-      <button class="social-btn sb-x" onclick="shareTo('x')">𝕏 分享到 X</button>
-      <button class="social-btn sb-red" onclick="shareTo('red')">📕 小红书文案</button>
-      <button class="social-btn sb-copy" onclick="shareTo('copy')">📋 复制文案</button>
-      <button class="social-btn sb-save" onclick="downloadPoster()">💾 保存图片</button>
-    </div>
-  </div>
-</div>
-
-<!-- ===== Tab 4: Workflow ===== -->
+<!-- ===== Tab 3: Workflow ===== -->
 <div id="tab-workflow" class="tab-content">
+
   <div class="workflow-section">
     <h2>⚙️ 工作原理</h2>
     <p style="color:var(--mc-text-dim);font-size:0.9em;margin-bottom:16px;">本 Skill 通过麦当劳官方 MCP 的 8 个真实工具获取数据，所有数字来自真实接口返回，不编造、不虚构。</p>
+
     <h3 style="color:var(--mc-yellow);margin:16px 0 10px;font-size:1.05em;">8 个 MCP 工具</h3>
     <div>
-      <span class="tool-tag">order-list</span><span class="tool-tag">query-my-account</span><span class="tool-tag">query-my-coupons</span><span class="tool-tag">campaign-calendar</span><span class="tool-tag">query-nearby-stores</span><span class="tool-tag">query-meals</span><span class="tool-tag">calculate-price</span><span class="tool-tag">create-order</span>
+      <span class="tool-tag">order-list</span>
+      <span class="tool-tag">query-my-account</span>
+      <span class="tool-tag">query-my-coupons</span>
+      <span class="tool-tag">campaign-calendar</span>
+      <span class="tool-tag">query-nearby-stores</span>
+      <span class="tool-tag">query-meals</span>
+      <span class="tool-tag">calculate-price</span>
+      <span class="tool-tag">create-order</span>
     </div>
+
     <h3 style="color:var(--mc-yellow);margin:20px 0 10px;font-size:1.05em;">调用流程</h3>
 <pre class="workflow-diagram">年度总结                              今日宜吃
    │                                      │
@@ -457,16 +566,31 @@
    └─► 输出报告 ─────────────────────────► 确认后 → query-meals
                                                        → calculate-price
                                                        → create-order</pre>
+
     <h3 style="color:var(--mc-yellow);margin:20px 0 10px;font-size:1.05em;">读写分离原则</h3>
     <table style="width:100%;border-collapse:collapse;font-size:0.88em;">
-      <tr style="border-bottom:1px solid #3a3a5c;"><th style="text-align:left;padding:8px;color:var(--mc-text-dim);">类型</th><th style="text-align:left;padding:8px;color:var(--mc-text-dim);">工具</th><th style="text-align:left;padding:8px;color:var(--mc-text-dim);">是否需确认</th></tr>
-      <tr style="border-bottom:1px solid #2a2a40;"><td style="padding:8px;">读</td><td style="padding:8px;"><code style="color:var(--mc-yellow)">order-list</code> 等 5 个</td><td style="padding:8px;color:var(--mc-green);">否 · 直接调用</td></tr>
-      <tr><td style="padding:8px;">写</td><td style="padding:8px;"><code style="color:var(--mc-yellow)">create-order</code></td><td style="padding:8px;color:var(--mc-orange);">是 · 必须用户确认</td></tr>
+      <tr style="border-bottom:1px solid #3a3a5c;">
+        <th style="text-align:left;padding:8px;color:var(--mc-text-dim);">类型</th>
+        <th style="text-align:left;padding:8px;color:var(--mc-text-dim);">工具</th>
+        <th style="text-align:left;padding:8px;color:var(--mc-text-dim);">是否需确认</th>
+      </tr>
+      <tr style="border-bottom:1px solid #2a2a40;">
+        <td style="padding:8px;">读</td>
+        <td style="padding:8px;"><code style="color:var(--mc-yellow)">order-list</code> 等 5 个</td>
+        <td style="padding:8px;color:var(--mc-green);">否 · 直接调用</td>
+      </tr>
+      <tr>
+        <td style="padding:8px;">写</td>
+        <td style="padding:8px;"><code style="color:var(--mc-yellow)">create-order</code></td>
+        <td style="padding:8px;color:var(--mc-orange);">是 · 必须用户确认</td>
+      </tr>
     </table>
   </div>
+
 </div>
 </div>
 
+<!-- ===== Footer ===== -->
 <footer>
   <p>本项目为<strong>麦当劳 1024 程序员节创意开发大赛</strong>参赛作品，非麦当劳官方产品。</p>
   <p>所有数据来自麦当劳官方 MCP 真实接口返回，演示页面数据为模拟值。</p>
@@ -478,42 +602,34 @@
   <p style="margin-top:12px;color:#555;">如果这份报告让你想点一份巨无霸 — 数据是真实的，你的钱包也是真实的。</p>
 </footer>
 
-<div class="toast" id="toast">操作成功</div>
+<div class="toast" id="toast">已复制分享文本到剪贴板</div>
 
-<!-- 本地二维码生成库（MIT License, qrcode-generator） -->
-<script src="vendor/qrcode.js"></script>
 <script>
-// ===== Global data state =====
-const G = {};
-
-function gatherData() {
-  G.count = parseInt(document.getElementById('in-count').value) || 0;
-  G.spend = parseInt(document.getElementById('in-spend').value) || 0;
-  G.fav = document.getElementById('in-fav').value || '巨无霸';
-  G.favCount = parseInt(document.getElementById('in-fav-count').value) || 0;
-  G.month = document.getElementById('in-month').value;
-  G.monthCount = parseInt(document.getElementById('in-month-count').value) || 0;
-  G.weekday = document.getElementById('in-weekday').value;
-  G.fast = parseInt(document.getElementById('in-fast').value) || 0;
-  G.since = parseInt(document.getElementById('in-since').value) || 0;
-  G.coupons = parseInt(document.getElementById('in-coupons').value) || 0;
-  G.points = parseInt(document.getElementById('in-points').value) || 0;
-  G.totalVisits = parseInt(document.getElementById('in-total-visits').value) || G.count;
-  G.avg = G.count > 0 ? Math.round(G.spend / G.count) : 0;
-  G.mcfaith = calcMcFaith(G.totalVisits, G.points, G.coupons, G.since);
-  G.tier = getMcFaithTier(G.mcfaith);
-  G.mbti = calcMBTI(G);
+// ===== Tab switching =====
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  // Auto-calc crave on first visit
+  if (name === 'crave') calcCrave();
 }
 
-// ===== McFaith Index =====
+// ===== McFaith Index calculation =====
 function calcMcFaith(visits, points, coupons, sinceDays) {
+  // 活跃度 30%: visits, 12+次=满分
   const activity = Math.min(visits / 12, 1) * 30;
+  // 消费 25%: points proxy, 2000+=满分
   const consume = Math.min(points / 2000, 1) * 25;
+  // 积分 25%: same as points (already in consume, use combined)
   const loyalty = Math.min(points / 2000, 1) * 25;
+  // 券包 20%: 3+张=满分
   const couponScore = Math.min(coupons / 3, 1) * 20;
+  // 断食惩罚: >14天扣分
   const fastPenalty = sinceDays > 14 ? Math.min((sinceDays - 14) * 2, 15) : 0;
-  return Math.max(0, Math.min(100, Math.round(activity + consume + loyalty + couponScore - fastPenalty)));
+  const total = Math.max(0, Math.min(100, activity + consume + loyalty + couponScore - fastPenalty));
+  return Math.round(total);
 }
+
 function getMcFaithTier(score) {
   if (score >= 90) return { title: '麦门至尊信徒', cls: 'mcfaith-90', desc: '今天不吃麦当劳，功德会掉' };
   if (score >= 70) return { title: '麦门忠实信徒', cls: 'mcfaith-70', desc: '虔诚度在线，稳住' };
@@ -522,115 +638,105 @@ function getMcFaithTier(score) {
   return { title: '麦门逆子', cls: 'mcfaith-0', desc: '快去吃个汉堡赎罪' };
 }
 
-// ===== McMBTI personality =====
-function calcMBTI(d) {
-  // 4 dimensions, each binary:
-  // Dim1: I/E — frequency (I: <24次 introvert低频, E: >=24 extrovert高频)
-  // Dim2: F/T — food loyalty (F: favCount>=8 faithful专一, T: <8 taster多样)
-  // Dim3: S/N — spending style (S: avg<30 saver省钱, N: >=30 splurge挥霍)
-  // Dim4: J/P — coupon usage (J: coupons>=3 judicious规划, P: <3 spontaneous随性)
-  const ie = d.count >= 24 ? 'E' : 'I';
-  const ft = d.favCount >= 8 ? 'F' : 'T';
-  const sn = d.avg >= 30 ? 'N' : 'S';
-  const jp = d.coupons >= 3 ? 'J' : 'P';
-  const code = ie + ft + sn + jp;
-
-  const types = {
-    'IFSJ': { name: '巨无霸型·忠诚守卫', desc: '一年到头就认一个套餐，省钱又专一', emoji: '🍔' },
-    'IFSP': { name: '麦乐鸡型·随性享乐', desc: '吃得不多但随心所欲，不囤券不纠结', emoji: '🍗' },
-    'IFNJ': { name: '板烧型·低调精致', desc: '不常来但每次都精打细算，品质与性价比并存', emoji: '🥪' },
-    'IFNP': { name: '麦辣鸡腿堡型·感性自由', desc: '少而精，花钱不心疼，随心情来', emoji: '🌶️' },
-    'ITSJ': { name: '双层吉士堡型·理性常客', desc: '来得勤还省钱，精算师级别的麦门人', emoji: '🧀' },
-    'ITSP': { name: '麦麦鸡块型·效率至上', desc: '常来但不囤券，想吃就买不磨叽', emoji: '🍗' },
-    'ITNJ': { name: '安格斯型·理性精英', desc: '高端消费但每分钱都花在刀刃上', emoji: '🥩' },
-    'ITNP': { name: '麦满分型·效率土豪', desc: '常来、多样、花得多、不囤券——快乐就完事了', emoji: '💰' },
-    'EFSJ': { name: '开心乐园餐型·忠诚社交', desc: '常客+专一+精明，朋友圈里的麦门达人', emoji: '😄' },
-    'EFSP': { name: '甜筒型·快乐传播者', desc: '高频+专一+随性，走到哪吃到哪', emoji: '🍦' },
-    'EFNJ': { name: '麦旋风型·精致社交', desc: '常来+专一+精算+舍得花，麦门KOL', emoji: '🌀' },
-    'EFNP': { name: '全家桶型·社交土豪', desc: '高频+专一+花得多+不囤券——麦门顶级玩家', emoji: '🍟' },
-    'ETSJ': { name: '巨无霸型·理性常客', desc: '来得勤+花样多+精打细算，数据型选手', emoji: '📊' },
-    'ETSP': { name: '麦乐鸡型·随性常客', desc: '高频+多样+随性，快乐就完事', emoji: '🎉' },
-    'ETNJ': { name: '安格斯型·理性社交', desc: '花得多但每分都在刀刃上，常客中的精算师', emoji: '🏆' },
-    'ETNP': { name: '麦满分型·全能快乐', desc: '高频+多样+花得多+不囤券——人生苦短，吃麦快乐', emoji: '⭐' }
-  };
-  return { code, ...types[code] };
-}
-
-// ===== Generate Heatmap data (deterministic from params) =====
-function generateHeatmap(count, seed) {
-  // 26 columns x 7 rows = 182 cells, compact weekly-style layout
-  const cells = [];
-  const totalCells = 26 * 7;
-  const fillRatio = Math.min(count / 60, 0.62);
-  const targetFilled = Math.floor(totalCells * fillRatio);
-  let s = seed;
-  function rand() { s = (s * 9301 + 49297) % 233280; return s / 233280; }
-  const positions = new Set();
-  let guard = 0;
-  while (positions.size < targetFilled && guard < totalCells * 20) {
-    positions.add(Math.floor(rand() * totalCells));
-    guard++;
-  }
-  for (let i = 0; i < totalCells; i++) {
-    if (positions.has(i)) {
-      const r = rand();
-      if (r > 0.78) cells.push(4);
-      else if (r > 0.52) cells.push(3);
-      else if (r > 0.26) cells.push(2);
-      else cells.push(1);
-    } else {
-      cells.push(0);
-    }
-  }
-  return cells;
-}
-
-// ===== Tab switching =====
-function switchTab(name) {
-  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  if (name === 'crave') calcCrave();
-  if (name === 'poster') { syncToPoster(); generatePoster(); }
-}
-
 // ===== Generate Annual Report =====
 function generateReport() {
-  gatherData();
-  const fastStatus = G.since > 14
-    ? `<span style="color:var(--mc-red);font-weight:600;">⚠️ 已 ${G.since} 天未吃，超过 14 天断食红线！</span>`
-    : G.since > 7
-    ? `<span style="color:var(--mc-orange);">已 ${G.since} 天，该回来吃吃了</span>`
-    : `<span style="color:var(--mc-green);">刚吃过 ${G.since} 天前，新鲜</span>`;
-  const cups = G.spend > 0 ? Math.round(G.spend / 15) : 0;
-  const burgers = G.spend > 0 ? Math.round(G.spend / 27) : 0;
+  const count = parseInt(document.getElementById('in-count').value) || 0;
+  const spend = parseInt(document.getElementById('in-spend').value) || 0;
+  const fav = document.getElementById('in-fav').value || '巨无霸';
+  const favCount = parseInt(document.getElementById('in-fav-count').value) || 0;
+  const month = document.getElementById('in-month').value;
+  const monthCount = parseInt(document.getElementById('in-month-count').value) || 0;
+  const weekday = document.getElementById('in-weekday').value;
+  const fast = parseInt(document.getElementById('in-fast').value) || 0;
+  const since = parseInt(document.getElementById('in-since').value) || 0;
+  const coupons = parseInt(document.getElementById('in-coupons').value) || 0;
+  const points = parseInt(document.getElementById('in-points').value) || 0;
+  const totalVisits = parseInt(document.getElementById('in-total-visits').value) || count;
+
+  const avg = count > 0 ? Math.round(spend / count) : 0;
+  const mcfaith = calcMcFaith(totalVisits, points, coupons, since);
+  const tier = getMcFaithTier(mcfaith);
+
+  const fastStatus = since > 14
+    ? `<span style="color:var(--mc-red);font-weight:600;">⚠️ 已 ${since} 天未吃，超过 14 天断食红线！</span>`
+    : since > 7
+    ? `<span style="color:var(--mc-orange);">已 ${since} 天，该回来吃吃了</span>`
+    : `<span style="color:var(--mc-green);">刚吃过 ${since} 天前，新鲜</span>`;
+
+  // Generate comparable
+  let compare = '';
+  if (spend > 0) {
+    const cups = Math.round(spend / 15);
+    const burgers = Math.round(spend / 27);
+    compare = `<div class="stat-item"><span class="stat-icon">💡</span> <span class="stat-label">换个说法</span><br><span class="stat-sub">约等于 ${cups} 杯咖啡 / ${burgers} 个巨无霸</span></div>`;
+  }
+
   const html = `
 <div class="report-card">
   <div class="card-title">🍟 麦门年度总结</div>
   <div class="card-year">2026 Annual Wrapped · 生成于 ${new Date().toLocaleDateString('zh-CN')}</div>
   <div class="report-stats">
-    <div class="stat-item"><span class="stat-icon">📅</span> <span class="stat-label">今年吃了几次</span><br><span class="stat-value">${G.count} 次</span></div>
-    <div class="stat-item"><span class="stat-icon">💰</span> <span class="stat-label">累计消费</span><br><span class="stat-value">¥${G.spend.toLocaleString()}</span><br><span class="stat-sub">平均每次 ¥${G.avg}</span></div>
-    <div class="stat-item"><span class="stat-icon">🏆</span> <span class="stat-label">你的最爱</span><br><span class="stat-value">${G.fav}</span><br><span class="stat-sub">点了 ${G.favCount} 次</span></div>
-    <div class="stat-item"><span class="stat-icon">📈</span> <span class="stat-label">吃得最多的月份</span><br><span class="stat-value">${G.month}</span><br><span class="stat-sub">${G.monthCount} 次</span></div>
-    <div class="stat-item"><span class="stat-icon">📅</span> <span class="stat-label">最常下单</span><br><span class="stat-value">${G.weekday}</span></div>
-    <div class="stat-item"><span class="stat-icon">⏳</span> <span class="stat-label">最长断食</span><br><span class="stat-value">${G.fast} 天</span></div>
-    <div class="stat-item"><span class="stat-icon">📊</span> <span class="stat-label">距上次吃麦门</span><br><span class="stat-value">${G.since} 天前</span><br><span class="stat-sub">${fastStatus}</span></div>
-    <div class="stat-item"><span class="stat-icon">🎫</span> <span class="stat-label">券包</span><br><span class="stat-value">${G.coupons} 张</span></div>
-    <div class="stat-item"><span class="stat-icon">⭐</span> <span class="stat-label">当前积分</span><br><span class="stat-value">${G.points.toLocaleString()}</span></div>
-    <div class="stat-item"><span class="stat-icon">💡</span> <span class="stat-label">换个说法</span><br><span class="stat-sub">约等于 ${cups} 杯咖啡 / ${burgers} 个巨无霸</span></div>
+    <div class="stat-item"><span class="stat-icon">📅</span> <span class="stat-label">今年吃了几次</span><br><span class="stat-value">${count} 次</span></div>
+    <div class="stat-item"><span class="stat-icon">💰</span> <span class="stat-label">累计消费</span><br><span class="stat-value">¥${spend.toLocaleString()}</span><br><span class="stat-sub">平均每次 ¥${avg}</span></div>
+    <div class="stat-item"><span class="stat-icon">🏆</span> <span class="stat-label">你的最爱</span><br><span class="stat-value">${fav}</span><br><span class="stat-sub">点了 ${favCount} 次</span></div>
+    <div class="stat-item"><span class="stat-icon">📈</span> <span class="stat-label">吃得最多的月份</span><br><span class="stat-value">${month}</span><br><span class="stat-sub">${monthCount} 次</span></div>
+    <div class="stat-item"><span class="stat-icon">📅</span> <span class="stat-label">最常下单</span><br><span class="stat-value">${weekday}</span></div>
+    <div class="stat-item"><span class="stat-icon">⏳</span> <span class="stat-label">最长断食</span><br><span class="stat-value">${fast} 天</span></div>
+    <div class="stat-item"><span class="stat-icon">📊</span> <span class="stat-label">距上次吃麦门</span><br><span class="stat-value">${since} 天前</span><br><span class="stat-sub">${fastStatus}</span></div>
+    <div class="stat-item"><span class="stat-icon">🎫</span> <span class="stat-label">券包</span><br><span class="stat-value">${coupons} 张</span></div>
+    <div class="stat-item"><span class="stat-icon">⭐</span> <span class="stat-label">当前积分</span><br><span class="stat-value">${points.toLocaleString()}</span></div>
+    ${compare}
   </div>
   <hr class="divider">
   <div>
     <span class="stat-label" style="display:block;margin-bottom:4px;">🏅 麦门指数</span>
-    <span class="mcfaith-badge ${G.tier.cls}">${G.mcfaith} 分 · ${G.tier.title}</span>
-    <p style="margin-top:8px;color:var(--mc-text-dim);font-size:0.85em;">${G.tier.desc}</p>
+    <span class="mcfaith-badge ${tier.cls}">${mcfaith} 分 · ${tier.title}</span>
+    <p style="margin-top:8px;color:var(--mc-text-dim);font-size:0.85em;">${tier.desc}</p>
   </div>
   <hr class="divider">
   <p style="color:var(--mc-text-dim);font-size:0.78em;">所有数字均来自麦当劳 MCP 真实返回 · 工具调用失败时自动降级</p>
+</div>
+<div style="text-align:center;margin-bottom:24px;">
+  <button class="btn-share" onclick="shareReport()">📤 复制分享文本</button>
+  <a class="btn-share" href="https://github.com/qingyebenye-tech/mcd-yearly" target="_blank" style="background:var(--mc-card);color:var(--mc-yellow);border:1px solid var(--mc-yellow);margin-left:8px;">⭐ Star 项目</a>
 </div>`;
+
   document.getElementById('report-output').innerHTML = html;
-  syncToPoster();
+
+  // Store for share
+  window._lastReport = { count, spend, fav, favCount, month, monthCount, weekday, fast, since, coupons, points, mcfaith, tier };
+}
+
+// ===== Share =====
+function shareReport() {
+  const r = window._lastReport;
+  if (!r) return;
+  const text = `🍟 我的 2026 麦门年度总结
+━━━━━━━━━━━━━━━━━━━━━━
+📅 吃了 ${r.count} 次  💰 花了 ¥${r.spend}
+🏆 最爱：${r.fav}（${r.favCount} 次）
+⏳ 最长断食 ${r.fast} 天  📅 距今 ${r.since} 天
+🎫 ${r.coupons} 张券  ⭐ ${r.points} 积分
+🏅 麦门指数 ${r.mcfaith} · ${r.tier.title}
+━━━━━━━━━━━━━━━━━━━━━━
+来生成你的麦门年度总结 → https://github.com/qingyebenye-tech/mcd-yearly`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  });
 }
 
 // ===== Crave Index =====
@@ -639,253 +745,63 @@ function calcCrave() {
   const campaign = parseFloat(document.getElementById('crave-campaign').value);
   const coupon = parseFloat(document.getElementById('crave-coupon').value);
   const weekday = parseFloat(document.getElementById('crave-weekday').value);
-  const fastScore = Math.min(days / 14, 1) * 100;
+
+  // Normalize each factor to 0-100
+  const fastScore = Math.min(days / 14, 1) * 100;      // 14天=满分
   const campaignScore = campaign * 100;
   const couponScore = coupon * 100;
   const weekdayScore = weekday * 100;
-  const total = Math.round(fastScore * 0.30 + campaignScore * 0.25 + couponScore * 0.25 + weekdayScore * 0.20);
+
+  // Weighted: 30% + 25% + 25% + 20%
+  const total = Math.round(
+    fastScore * 0.30 + campaignScore * 0.25 + couponScore * 0.25 + weekdayScore * 0.20
+  );
+
+  // Label
   let label, bg;
   if (total >= 80) { label = '🔥 非常宜吃'; bg = 'linear-gradient(90deg,#FF6B35,#FFC72C)'; }
   else if (total >= 60) { label = '✅ 比较宜吃'; bg = 'linear-gradient(90deg,#FFC72C,#4CAF50)'; }
   else if (total >= 40) { label = '😐 一般般'; bg = 'linear-gradient(90deg,#888,#FFC72C)'; }
   else if (total >= 20) { label = '🙂 不太宜吃'; bg = 'linear-gradient(90deg,#5577aa,#888)'; }
   else { label = '🙅 今天别吃了'; bg = 'linear-gradient(90deg,#DA291C,#5577aa)'; }
-  const picks = ['麦辣鸡腿堡套餐', '巨无霸套餐', '双层吉士堡 + 麦乐鸡 6 块', '安格斯黑椒厚牛堡套餐', '麦麦鸡块 10 块 + 甜筒'];
+
+  // Pick
+  const picks = [
+    '麦辣鸡腿堡套餐（黄金六块 + 麦乐鸡）',
+    '巨无霸套餐（中薯 + 可乐）',
+    '双层吉士堡 + 麦乐鸡 6 块',
+    '安格斯黑椒厚牛堡套餐',
+    '麦麦鸡块 10 块 + 甜筒'
+  ];
   const pickIdx = total % picks.length;
+
   document.getElementById('crave-score').textContent = total + '%';
   document.getElementById('crave-label').textContent = label;
   document.getElementById('crave-bar').style.width = total + '%';
   document.getElementById('crave-bar').style.background = bg;
   document.getElementById('crave-bar').textContent = total;
   document.getElementById('crave-pick').textContent = picks[pickIdx];
+
+  // Factors detail
   const factors = [
     { label: '断食天数', score: Math.round(fastScore), weight: '30%', fill: fastScore, color: '#FF6B35' },
     { label: '今日活动', score: Math.round(campaignScore), weight: '25%', fill: campaignScore, color: '#FFC72C' },
     { label: '临期优惠券', score: Math.round(couponScore), weight: '25%', fill: couponScore, color: '#4CAF50' },
     { label: '星期偏好', score: Math.round(weekdayScore), weight: '20%', fill: weekdayScore, color: '#5599dd' }
   ];
-  document.getElementById('crave-factors').innerHTML = factors.map(f => `
+  const factorsHtml = factors.map(f => `
     <div class="crave-factor">
       <div class="factor-label">${f.label}</div>
       <div class="factor-weight-bar"><div class="factor-weight-fill" style="width:${f.fill}%;background:${f.color};"></div></div>
       <div class="factor-weight">${f.weight}</div>
-    </div>`).join('');
-}
-
-// ===== Sync between main form and poster quick-adjust =====
-const POSTER_FIELDS = [
-  ['p-count', 'in-count'],
-  ['p-spend', 'in-spend'],
-  ['p-fav', 'in-fav'],
-  ['p-fav-count', 'in-fav-count'],
-  ['p-fast', 'in-fast'],
-  ['p-since', 'in-since'],
-  ['p-coupons', 'in-coupons'],
-  ['p-points', 'in-points']
-];
-
-// Poster quick-adjust -> main form
-function syncFromPoster() {
-  POSTER_FIELDS.forEach(([pId, mId]) => {
-    const pEl = document.getElementById(pId);
-    const mEl = document.getElementById(mId);
-    if (pEl && mEl) mEl.value = pEl.value;
-  });
-  // keep total-visits consistent with count
-  const cnt = document.getElementById('p-count').value;
-  const tv = document.getElementById('in-total-visits');
-  if (tv && cnt) tv.value = cnt;
-  generatePoster();
-}
-
-// Main form -> poster quick-adjust
-function syncToPoster() {
-  POSTER_FIELDS.forEach(([pId, mId]) => {
-    const pEl = document.getElementById(pId);
-    const mEl = document.getElementById(mId);
-    if (pEl && mEl) pEl.value = mEl.value;
-  });
-}
-
-// ===== Build QR code SVG locally (no external API) =====
-function buildQR(text, size) {
-  try {
-    const qr = qrcode(0, 'M');
-    qr.addData(text);
-    qr.make();
-    const count = qr.getModuleCount();
-    const cell = size / count;
-    let paths = '';
-    for (let r = 0; r < count; r++) {
-      for (let c = 0; c < count; c++) {
-        if (qr.isDark(r, c)) {
-          paths += `M${(c * cell).toFixed(2)},${(r * cell).toFixed(2)}h${cell.toFixed(2)}v${cell.toFixed(2)}h-${cell.toFixed(2)}z`;
-        }
-      }
-    }
-    return `<svg viewBox="0 0 ${size} ${size}" width="100%" height="100%" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg"><rect width="${size}" height="${size}" fill="#fff"/><path d="${paths}" fill="#1a1a2e"/></svg>`;
-  } catch (e) {
-    return `<div style="font-size:7px;color:#333;font-weight:700;text-align:center;line-height:1.2">QR<br>CODE</div>`;
-  }
-}
-
-// ===== Generate Poster =====
-function generatePoster() {
-  gatherData();
-
-  // Heatmap
-  const heatData = generateHeatmap(G.count, G.spend + G.points);
-  const heatHtml = heatData.map(l => `<div class="heatmap-cell${l > 0 ? ' l' + l : ''}"></div>`).join('');
-
-  // QR code — generated locally, no external API dependency
-  const repoUrl = 'https://github.com/qingyebenye-tech/mcd-yearly';
-  const qrSvg = buildQR(repoUrl, 46);
-
-  const html = `
-    <div class="poster-header">
-      <div class="p-brand">McDonald's MCP</div>
-      <div class="p-title">麦门年度总结</div>
-      <div class="p-year">2026 ANNUAL WRAPPED</div>
     </div>
-
-    <div class="poster-mbti">
-      <div class="mbti-code">${G.mbti.code}</div>
-      <div class="mbti-info">
-        <div class="mbti-name">${G.mbti.name}</div>
-        <div class="mbti-desc">${G.mbti.desc}</div>
-      </div>
-    </div>
-
-    <div class="poster-heatmap">
-      <div class="heatmap-title">2026 消费热力图</div>
-      <div class="heatmap-grid">${heatHtml}</div>
-      <div class="heatmap-legend">
-        <span>少</span>
-        <div class="sq" style="background:rgba(255,255,255,0.03);"></div>
-        <div class="sq" style="background:rgba(255,199,44,0.15);"></div>
-        <div class="sq" style="background:rgba(255,199,44,0.35);"></div>
-        <div class="sq" style="background:rgba(255,199,44,0.6);"></div>
-        <div class="sq" style="background:rgba(255,107,53,0.8);"></div>
-        <span>多</span>
-      </div>
-    </div>
-
-    <div class="poster-bignum">
-      <div class="bignum-value">${G.count}<span class="unit"> 次</span></div>
-      <div class="bignum-label">今年吃了 ${G.count} 次麦当劳，花了 ¥${G.spend.toLocaleString()}</div>
-    </div>
-
-    <div class="poster-stats">
-      <div class="p-stat"><div class="p-val">${G.favCount}</div><div class="p-lbl">最爱点了${G.favCount}次</div></div>
-      <div class="p-stat"><div class="p-val">${G.fast}</div><div class="p-lbl">最长断食天</div></div>
-      <div class="p-stat"><div class="p-val">${G.coupons}</div><div class="p-lbl">手中券数</div></div>
-    </div>
-
-    <div class="poster-faith">
-      <span class="faith-badge-p ${G.tier.cls}"><span class="fb-icon"></span>${G.mcfaith} · ${G.tier.title}</span>
-    </div>
-
-    <div class="poster-footer">
-      <div class="p-tagline">数据来自麦当劳官方 MCP 真实返回</div>
-      <div class="p-qr">${qrSvg}</div>
-      <div class="p-link">github.com/qingyebenye-tech/mcd-yearly</div>
-    </div>
-  `;
-  document.getElementById('poster-inner').innerHTML = html;
+  `).join('');
+  document.getElementById('crave-factors').innerHTML = factorsHtml;
 }
 
-// ===== Download Poster as image =====
-function downloadPoster() {
-  const poster = document.getElementById('poster-canvas');
-  const w = 480, h = 640;
-  const clone = poster.cloneNode(true);
-  clone.style.width = w + 'px';
-  clone.style.height = h + 'px';
-
-  // Serialize
-  const serializer = new XMLSerializer();
-  const html = serializer.serializeToString(clone);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
-    <foreignObject x="0" y="0" width="100%" height="100%">
-      <html xmlns="http://www.w3.org/1999/xhtml">
-        <head><style>
-          * { margin:0; padding:0; box-sizing:border-box; }
-          body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif; }
-        </style></head>
-        <body>${html}</body>
-      </html>
-    </foreignObject>
-  </svg>`;
-
-  const blob = new Blob([svg], { type: 'image/svg+xml' });
-  const url = URL.createObjectURL(blob);
-  const img = new Image();
-  img.onload = function() {
-    const canvas = document.createElement('canvas');
-    canvas.width = w * 2; // 2x for retina
-    canvas.height = h * 2;
-    const ctx = canvas.getContext('2d');
-    ctx.scale(2, 2);
-    ctx.fillStyle = '#0f0f1e';
-    ctx.fillRect(0, 0, w, h);
-    ctx.drawImage(img, 0, 0, w, h);
-    canvas.toBlob(function(blob2) {
-      const a = document.createElement('a');
-      a.download = 'mcd-yearly-poster.png';
-      a.href = URL.createObjectURL(blob2);
-      a.click();
-      URL.revokeObjectURL(a.href);
-    }, 'image/png');
-    URL.revokeObjectURL(url);
-    showToast('海报已保存到本地');
-  };
-  img.onerror = function() {
-    // Fallback: just open print dialog
-    showToast('请右键海报 → 另存为图片，或用截图工具保存');
-    window.print();
-  };
-  img.src = url;
-}
-
-// ===== Social share =====
-function shareTo(platform) {
-  gatherData();
-  const text = `🍟 我的 2026 麦门年度总结
-
-📊 吃了 ${G.count} 次 · 花了 ¥${G.spend.toLocaleString()}
-🏆 最爱：${G.fav}（${G.favCount} 次）
-⏳ 最长断食 ${G.fast} 天
-🎫 ${G.coupons} 张券 · ⭐ ${G.points} 积分
-🏅 麦门指数 ${G.mcfaith} · ${G.tier.title}
-🧪 麦门MBTI：${G.mbti.code} · ${G.mbti.name}
-
-来生成你的麦门年度总结 → github.com/qingyebenye-tech/mcd-yearly`;
-
-  if (platform === 'copy') {
-    navigator.clipboard.writeText(text).then(() => showToast('文案已复制到剪贴板')).catch(() => {
-      const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('文案已复制');
-    });
-  } else if (platform === 'weibo') {
-    window.open(`https://service.weibo.com/share/share.php?title=${encodeURIComponent(text)}&url=${encodeURIComponent('https://github.com/qingyebenye-tech/mcd-yearly')}`, '_blank');
-  } else if (platform === 'x') {
-    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent('https://github.com/qingyebenye-tech/mcd-yearly')}`, '_blank');
-  } else if (platform === 'red') {
-    navigator.clipboard.writeText(text).then(() => showToast('小红书文案已复制，打开小红书粘贴即可')).catch(() => {
-      const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('文案已复制，打开小红书粘贴');
-    });
-  }
-}
-
-// ===== Toast =====
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-// ===== Init =====
+// ===== Init: generate default report =====
 generateReport();
 </script>
+
 </body>
 </html>
