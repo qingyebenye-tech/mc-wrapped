@@ -1,0 +1,27 @@
+# 环境变量与本地配置（含真实 Token 的文件，绝不能提交）
+.env
+.env.*
+*.local
+mcp-config.json
+mcp.json
+.workbuddy/
+
+# 常见 MCP 客户端本地配置（含密钥）
+.claude/
+.cursor/
+mcp_settings.json
+.claude_desktop_config.json
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器
+.idea/
+.vscode/
+*.swp
+
+# 日志
+*.log
+npm-debug.log*
+yarn-error.log*

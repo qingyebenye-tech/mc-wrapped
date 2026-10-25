@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141414"/>
+      <stop offset="50%" stop-color="#33200f"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFD700"/>
+      <stop offset="50%" stop-color="#FFA500"/>
+      <stop offset="100%" stop-color="#FFD700"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2e2e2e"/>
+      <stop offset="100%" stop-color="#1c1c1c"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <g id="fries">
+      <rect x="-4" y="0" width="9" height="52" rx="4" fill="#FFC83D"/>
+      <rect x="6" y="-8" width="9" height="60" rx="4" fill="#FFD75E"/>
+      <rect x="16" y="-14" width="9" height="66" rx="4" fill="#FFC83D"/>
+      <rect x="26" y="-6" width="9" height="58" rx="4" fill="#FFD75E"/>
+      <rect x="36" y="-18" width="9" height="70" rx="4" fill="#FFC83D"/>
+    </g>
+    <g id="burger">
+      <path d="M -34 -6 Q 0 -30 34 -6 L 30 2 L -30 2 Z" fill="#E8A33D"/>
+      <path d="M -36 2 L 36 2 L 32 9 L -32 9 Z" fill="#7CC142"/>
+      <path d="M -34 9 L 34 9 L 34 16 L -34 16 Z" fill="#C0392B"/>
+      <path d="M -32 16 L 32 16 L 34 23 L -34 23 Z" fill="#E8A33D"/>
+      <path d="M -33 23 L 33 23 L 28 32 L -28 32 Z" fill="#D4A017"/>
+      <circle cx="-14" cy="-9" r="1.7" fill="#fff5c4"/>
+      <circle cx="0" cy="-13" r="1.7" fill="#fff5c4"/>
+      <circle cx="14" cy="-9" r="1.7" fill="#fff5c4"/>
+    </g>
+    <g id="coin">
+      <circle r="9" fill="url(#gold)"/>
+      <circle r="9" fill="none" stroke="#B8860B" stroke-width="1.2"/>
+      <path d="M 0 -5 L 0 5 M -3 -2.5 L 0 -5 L 3 -2.5" stroke="#7a5c00" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+    </g>
+    <g id="chart">
+      <rect x="-11" y="-3" width="5" height="14" rx="1.5" fill="#4CAF50"/>
+      <rect x="-3" y="-11" width="5" height="22" rx="1.5" fill="#FFC83D"/>
+      <rect x="5" y="-7" width="5" height="18" rx="1.5" fill="#4CAF50"/>
+    </g>
+    <g id="bell">
+      <path d="M 0 -11 C 6 -11 9 -7 9 -2 L 9 5 L 12 9 L -12 9 L -9 5 L -9 -2 C -9 -7 -6 -11 0 -11 Z" fill="#FFC83D"/>
+      <circle cx="0" cy="-13" r="2.6" fill="#FFC83D"/>
+      <circle cx="0" cy="11" r="2.8" fill="#FFC83D"/>
+    </g>
+    <g id="sun">
+      <circle r="8" fill="#FFC83D"/>
+      <g stroke="#FFC83D" stroke-width="2" stroke-linecap="round">
+        <line x1="0" y1="-12" x2="0" y2="-16"/><line x1="0" y1="12" x2="0" y2="16"/>
+        <line x1="-12" y1="0" x2="-16" y2="0"/><line x1="12" y1="0" x2="16" y2="0"/>
+        <line x1="-8.5" y1="-8.5" x2="-11.5" y2="-11.5"/><line x1="8.5" y1="-8.5" x2="11.5" y2="-11.5"/>
+        <line x1="-8.5" y1="8.5" x2="-11.5" y2="11.5"/><line x1="8.5" y1="8.5" x2="11.5" y2="11.5"/>
+      </g>
+    </g>
+    <g id="cart">
+      <path d="M -12 -8 L -9 -8 L -5 4 L 8 4 L 11 -5 L -7 -5" fill="none" stroke="#FFC83D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="-3" cy="9" r="2.4" fill="#FFC83D"/>
+      <circle cx="6" cy="9" r="2.4" fill="#FFC83D"/>
+    </g>
+    <g id="warn">
+      <path d="M 0 -11 L 11 9 L -11 9 Z" fill="#E74C3C"/>
+      <rect x="-1.3" y="-5" width="2.6" height="9" rx="1.3" fill="#fff"/>
+      <circle cx="0" cy="6.2" r="1.6" fill="#fff"/>
+    </g>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- 背景装饰 -->
+  <g opacity="0.10" transform="translate(72,300) scale(1.5)"><use href="#fries"/></g>
+  <g opacity="0.10" transform="translate(1105,300) scale(1.5)"><use href="#fries"/></g>
+  <g opacity="0.06" transform="translate(1100,110) scale(2.2)"><use href="#burger"/></g>
+
+  <!-- 顶部标签 -->
+  <rect x="80" y="66" width="196" height="34" rx="17" fill="none" stroke="url(#gold)" stroke-width="1.6"/>
+  <text x="178" y="89" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="15" font-weight="700" fill="url(#gold)" text-anchor="middle" letter-spacing="3">2026 ANNUAL</text>
+
+  <!-- 主标题 -->
+  <text x="80" y="196" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="82" font-weight="700" fill="#FFFFFF">麦门年度总结</text>
+  <text x="80" y="258" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="40" font-weight="700" fill="url(#gold)" letter-spacing="4">McWrapped</text>
+
+  <!-- 副标题 -->
+  <text x="80" y="310" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="21" fill="#C8C8C8">像网易云年度听歌报告一样的麦当劳消费总结</text>
+
+  <!-- 数据卡片 -->
+  <g transform="translate(80,356)">
+    <rect x="0" y="0" width="248" height="178" rx="16" fill="url(#card)" stroke="url(#gold)" stroke-width="1.2"/>
+    <use href="#chart" transform="translate(124,32)"/>
+    <text x="124" y="98" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="60" font-weight="700" fill="url(#gold)" text-anchor="middle" filter="url(#glow)">47</text>
+    <text x="124" y="128" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="16" fill="#D5D5D5" text-anchor="middle">今年吃了 47 次麦当劳</text>
+    <text x="124" y="154" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="13" fill="#FFC83D" text-anchor="middle">忠实信徒 · 频率 3.8 次/月</text>
+
+    <rect x="268" y="0" width="248" height="178" rx="16" fill="url(#card)" stroke="url(#gold)" stroke-width="1.2"/>
+    <use href="#coin" transform="translate(392,32)"/>
+    <text x="392" y="98" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="54" font-weight="700" fill="url(#gold)" text-anchor="middle" filter="url(#glow)">¥1,286</text>
+    <text x="392" y="128" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="16" fill="#D5D5D5" text-anchor="middle">累计消费</text>
+    <text x="392" y="154" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="13" fill="#FFC83D" text-anchor="middle">平均每次 ¥27</text>
+
+    <rect x="536" y="0" width="248" height="178" rx="16" fill="url(#card)" stroke="url(#gold)" stroke-width="1.2"/>
+    <use href="#warn" transform="translate(660,30) scale(0.9)"/>
+    <text x="660" y="98" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="60" font-weight="700" fill="url(#gold)" text-anchor="middle" filter="url(#glow)">23</text>
+    <text x="660" y="128" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="16" fill="#D5D5D5" text-anchor="middle">最长断食天数</text>
+    <text x="660" y="154" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="13" fill="#FFC83D" text-anchor="middle">叛逃者警告</text>
+  </g>
+
+  <!-- 右侧汉堡 -->
+  <g transform="translate(990,215)">
+    <circle cx="0" cy="0" r="86" fill="none" stroke="url(#gold)" stroke-width="1.6" opacity="0.45"/>
+    <circle cx="0" cy="0" r="72" fill="none" stroke="url(#gold)" stroke-width="0.8" opacity="0.25"/>
+    <use href="#burger" transform="scale(1.5)"/>
+  </g>
+
+  <!-- 能力标签 -->
+  <g transform="translate(80,566)">
+    <g>
+      <rect x="0" y="0" width="128" height="30" rx="15" fill="#FFC83D" opacity="0.14"/>
+      <use href="#chart" transform="translate(20,15) scale(0.62)"/>
+      <text x="76" y="21" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="14" fill="#FFD75E" text-anchor="middle">年度总结</text>
+    </g>
+    <g>
+      <rect x="140" y="0" width="128" height="30" rx="15" fill="#FFC83D" opacity="0.14"/>
+      <use href="#bell" transform="translate(160,15) scale(0.62)"/>
+      <text x="216" y="21" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="14" fill="#FFD75E" text-anchor="middle">断食提醒</text>
+    </g>
+    <g>
+      <rect x="280" y="0" width="128" height="30" rx="15" fill="#FFC83D" opacity="0.14"/>
+      <use href="#sun" transform="translate(300,15) scale(0.62)"/>
+      <text x="356" y="21" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="14" fill="#FFD75E" text-anchor="middle">宜吃指数</text>
+    </g>
+    <g>
+      <rect x="420" y="0" width="128" height="30" rx="15" fill="#FFC83D" opacity="0.14"/>
+      <use href="#cart" transform="translate(440,15) scale(0.62)"/>
+      <text x="496" y="21" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="14" fill="#FFD75E" text-anchor="middle">一键下单</text>
+    </g>
+  </g>
+
+  <text x="1120" y="600" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="11" fill="#777" text-anchor="end">基于麦当劳官方 MCP · 1024 程序员节创意开发大赛</text>
+</svg>
