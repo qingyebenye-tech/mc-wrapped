@@ -87,7 +87,7 @@
   <text x="80" y="258" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="40" font-weight="700" fill="url(#gold)" letter-spacing="4">McWrapped</text>
 
   <!-- 副标题 -->
-  <text x="80" y="310" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="21" fill="#C8C8C8">像网易云年度听歌报告一样的麦当劳消费总结</text>
+  <text x="80" y="310" font-family="Noto Sans SC, DejaVu Sans, sans-serif" font-size="21" fill="#C8C8C8">基于麦当劳官方 MCP，把你的真实订单变成一份年度账单</text>
 
   <!-- 数据卡片 -->
   <g transform="translate(80,356)">
