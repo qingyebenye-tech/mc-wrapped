@@ -40,7 +40,7 @@ What this Skill does is simple: **translate your real orders into an annual repo
 |:---:|---|
 | 📊 **Annual Wrapped** | Total visits, total spend, favorite item, peak month, most active weekday, longest streak, longest fast |
 | 🔔 **Fast Alert** | Auto-reminder if you haven't eaten McDonald's in 7+ days; red warning at 14+ days |
-| 🌤️ **Daily Crave Index** | A 0–100 score combining fast duration, today's campaigns, expiring coupons, and weekday |
+| 🌤️ **Daily Crave Index** | A 0–100 score combining fast duration, today's campaigns, expiring coupons, and personalized weekday preference |
 | 🍔 **One-Tap Order** | Recommends what to eat today, can check price and create an order directly |
 | ⏰ **Next Visit Reminder** | Estimates your "due back" window based on historical consumption frequency |
 
@@ -55,6 +55,25 @@ The annual report assigns you a title based on your McFaith score:
 | 50–69 | McFence Sitter | Could eat, could not — depends on the mood |
 | 30–49 | McDefector | Time to come back for a burger |
 | 0–29 | McProdigal | Go eat a burger and redeem yourself |
+
+### 📅 Personalized Weekday Preference
+
+The weekday dimension of the Daily Crave Index isn't scored by a one-size-fits-all rule — it's computed from **your own historical order rhythm**:
+
+Call `order-list` to fetch your historical orders → count orders per weekday → compute today's weekday preference score:
+
+```
+weekday_score = today's weekday share ÷ peak weekday share × 100
+```
+
+**Example**: your history has 12 orders on Friday, 15 on Saturday (the peak), and only 1 on Wednesday —
+- Today is Friday → 12 ÷ 15 × 100 = **80** (matches your rhythm)
+- Today is Saturday → 15 ÷ 15 × 100 = **100** (your main day, full marks)
+- Today is Wednesday → 1 ÷ 15 × 100 ≈ **7** (not your McDonald's day)
+
+> Why this design: everyone eats McDonald's on a different cadence. Some hit the Friday deal every week, others only go out on weekends. Rather than "Saturday = high score" universal rules, letting the score float with your real rhythm makes the recommendation far more convincing on days that genuinely match your pattern.
+>
+> When data is insufficient (<5 historical orders), it gracefully falls back to a universal preference to avoid misjudgment from tiny samples.
 
 ### 🎨 Live Demo
 
