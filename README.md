@@ -8,6 +8,8 @@
 
 **基于麦当劳官方 MCP，把你的真实订单变成一份年度账单**
 
+**中文** · [English](README_EN.md)
+
 [快速开始](#-快速开始) · [使用示例](#-使用示例) · [功能特性](#-功能特性) · [工作原理](#-工作原理) · [常见问题](#-常见问题)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
