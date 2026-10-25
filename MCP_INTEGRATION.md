@@ -1,55 +1,49 @@
 # MCP 接入说明
 
-## 使用的 MCP Server
+## MCP Server
 
-- **接入地址**：`https://mcp.mcd.cn`
-- **传输协议**：Streamable HTTP
-- **鉴权方式**：`Authorization: Bearer ${MCD_MCP_TOKEN}`
+- 地址：`https://mcp.mcd.cn`
+- 协议：Streamable HTTP
+- 鉴权：`Authorization: Bearer ${MCD_MCP_TOKEN}`
+- 限流：每分钟 600 次请求
 
-## 使用的 Tool
+## 使用的官方工具
 
 | 工具 | 用途 |
 |---|---|
-| `query-order-history` | 拉取全部历史订单，统计年度数据 |
-| `query-my-points` | 查当前积分余额 |
-| `query-my-coupons` | 查券包，找快过期的券 |
-| `activity-calendar` | 查今日活动（宜吃指数用） |
+| `order-list` | 拉取历史订单，统计年度数据 |
+| `query-my-account` | 查当前积分余额 |
+| `query-my-coupons` | 查券包，找临期券 |
+| `campaign-calendar` | 查今日活动 |
 | `query-nearby-stores` | 查附近门店 |
 | `query-meals` | 查菜单，推荐餐品 |
 | `calculate-price` | 算价格 |
-| `create-order` | 用户确认后下单 |
+| `create-order` | 创建订单 |
 
 ## 调用流程
 
 ### 年度总结
 ```
 用户："看看我的麦门年度总结"
-    │
-    ▼
-query-order-history → query-my-points → query-my-coupons
-    │
-    ▼
-统计：总次数/总花费/最爱餐品/最频繁月份/最长连续/最长断食/距今天数
-    │
-    ▼
-输出年度报告 + 询问是否开启关怀提醒
+  → order-list（全部订单）
+  → query-my-account（积分）
+  → query-my-coupons（券包）
+  → 统计：次数/金额/最爱/月份/断食
+  → 输出报告 + 询问开启提醒
 ```
 
-### 日常关怀提醒（开启后）
+### 关怀提醒（开启后）
 ```
 用户打开对话
-    │
-    ▼
-自动检查：距今天数 + 今日活动 + 快过期券
-    │
-    ▼
-断食警告 + 今日宜吃指数 + 推荐餐品
-    │
-    ▼
-用户要下单 → query-meals → calculate-price → create-order
+  → order-list（距今天数）
+  → campaign-calendar（今日活动）
+  → query-my-coupons（临期券）
+  → 算宜吃指数 + 推荐餐品
+  → 用户要下单 → query-meals → calculate-price → create-order
 ```
 
-## 安全说明
+## 安全
 
 - Token 仅通过环境变量 `${MCD_MCP_TOKEN}` 注入
-- 仓库不包含真实 Token、密钥或个人信息
+- 仓库不包含真实 Token
+- 所有金额来自 MCP 真实返回，不虚构
